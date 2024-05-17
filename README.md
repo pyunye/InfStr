@@ -1,2 +1,0 @@
-# InfStr
-System programming project
