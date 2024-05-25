@@ -12,6 +12,7 @@ int CheckKeyDirection(int key) {
 	if () {
 		//if isCorrectKey(key) is true in stairs.c
 		//flus score
+		//alarm(time) reset
 		//invoke SuccessKeyHandler
 	}
 	else {
