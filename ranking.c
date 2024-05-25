@@ -1,14 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "textmanager.h"
+#include <curses.h>
 
-void printRank(){
+void rank(){
 	Player *players = scoreOutput();
-	printf("		Ranking\n");
-	int i = 0;
-	while(players[i].username[0] != '\0'){
-		printf("%s : %d\n", players[i].username, players[i].score);
-		i++;
+	while(getKey() != 'b'){
+		printRank(players);
 	}
 }
 
