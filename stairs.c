@@ -3,6 +3,7 @@
 #include<string.h>
 #include<curses.h>
 #include<time.h>
+#include "stairs.h"
 
 typedef struct Stair{
 	int dir;//stair direction
@@ -30,6 +31,10 @@ Stair* createStair(){
 	Stair* newStair = (Stair*)malloc(sizeof(Stair));
 	newStair->dir = (randomDir == 0) ? KEY_LEFT : KEY_RIGHT; // 0 KEY_LEFT, 1 KEY_RIGHT
 	return newStair;
+}
+void createNewStair() {
+	//create stair and push queue
+	push(createStair());
 }
 void init(){
 	//create struct stair and push it
@@ -75,5 +80,3 @@ int isCorrectDirection(int key){
 	Stair* stair = poll();
 	return stair->dir == key;
 }
-
-
