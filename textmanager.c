@@ -23,10 +23,10 @@ void scoreInput(char *username, int score) {
     fclose(f);
 }
 
-Player *scoreOutput(int *num_players) {
+Player *scoreOutput() {
     FILE *f;
+    int num_players = 0;
     Player *players = malloc(MAX_SIZE * sizeof(Player)); 
-    *num_players = 0;
 
     // 파일 열기
     if ((f = fopen("score.txt", "r")) == NULL) {
@@ -35,42 +35,17 @@ Player *scoreOutput(int *num_players) {
     }
 
     // 파일에서 데이터 읽기
-    while (fscanf(f, "%s %d", players[*num_players].username, &players[*num_players].score) != EOF) {
-        (*num_players)++;
+    while (fscanf(f, "%s %d", players[num_players].username, &players[num_players].score) != EOF) {
+        (num_players)++;
     }
 
     // 소팅
-    qsort(players, *num_players, sizeof(Player), compare);
+    qsort(players, num_players, sizeof(Player), compare);
 
     fclose(f); // 파일 닫기
     
-    players[*num_players].username[0] = '\0';
-    players[*num_players].score = 0;
+    players[num_players].username[0] = '\0';
+    players[num_players].score = 0;
 
     return players;
-}
-
-int main() {
-    char username[50];
-    int score;
-    int num_players;
-    
-    printf("유저 이름을 입력하세요: ");
-    scanf("%s", username);
-    printf("점수를 입력하세요: ");
-    scanf("%d", &score);
-    
-    scoreInput(username, score);
-    
-    Player *players = scoreOutput(&num_players); 
-    
-    printf("Ranking:\n");
-    for (int i = 0; i < num_players; i++) {
-        printf("%s : %d\n", players[i].username, players[i].score);
-    }
-    
-    // 동적 할당된 메모리 해제
-    free(players);
-    
-    return 0;
 }
