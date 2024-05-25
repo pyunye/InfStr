@@ -1,13 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#define MAX_SIZE 100
-
-typedef struct {
-    char username[50];
-    int score;
-} Player;
+#include "textmanager.h"
 
 int compare(const void *a, const void *b) {
     return ((Player *)b)->score - ((Player *)a)->score;
