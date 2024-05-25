@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "textmanager.h"
 
-int main(){
+void printRank(){
 	Player *players = scoreOutput();
 	printf("		Ranking\n");
 	int i = 0;
