@@ -51,17 +51,3 @@ void scoreOutput() {
     fclose(f); // 파일 닫기
 }
 
-int main() {
-    char username[50];
-    int score;
-    
-    printf("유저 이름을 입력하세요: ");
-    scanf("%s", username);
-    printf("점수를 입력하세요: ");
-    scanf("%d", &score);
-    
-    scoreInput(username, score);
-    scoreOutput();
-    
-    return 0;
-}
