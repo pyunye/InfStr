@@ -6,6 +6,7 @@
 
 #define BLANK " "
 #define ARROW ">"
+#define ENTER 10
 
 int row = 17;
 int col = 24;
