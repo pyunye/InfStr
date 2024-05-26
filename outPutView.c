@@ -3,38 +3,43 @@
 #include <string.h>
 #include <unistd.h>
 #include <curses.h>
+#include "textmanager.h"
 
 #define BLANK " "
 #define ARROW ">"
 #define ENTER 10
+#define BACKKEY "> back key 'b'\n\n"
+
 
 int row = 17;
 int col = 23;
 int pre_row = 17;
 int prt_row = 0; // print row of main view
 
+void showPlayingView();
+void printHelp();
+void printRank();
+
 void enterMode(int select) {
 	switch (select) {
 		case 0:
 			initscr();
+			clear();
 			move(30, 24);
 			addstr("start");
 			break;
 
 		case 1:
-			initscr();
-			move(30, 24);
-			addstr("help");
+			printHelp();
 			break;
 		
 		case 2:
-			initscr();
-			move(30, 24);
-			addstr("ranking");
+			printRank();
 			break;
 
 		case 3:
 			initscr();
+			clear();
 			move(30, 24);
 			addstr("quit");
 			exit(0);
@@ -124,6 +129,36 @@ void setSelectionCursor() {
 		}
 	}
 	endwin();
+}
+
+void printHelp(){
+	char helpText[512] = "<<<<<	Help : Infinite Stair	  >>>>>\n\n* Press left or right to move upstair!\n* If you do not press any button for a long time or press a wrong button, game is over.\n* If you get a coin, you can press the button slowly.\n\n";
+	initscr();
+	noecho();
+	clear();
+	addstr(helpText);
+	addstr(BACKKEY);
+	refresh();
+	while(getch() != 'b'){
+	}
+}
+
+void printRank(){
+	Player *players = scoreOutput();
+	initscr();
+	noecho();
+	clear();
+	int i = 1;
+	char playersInfo[256];
+	while(i <= 10 && players[i].username[0] != '\0'){
+		sprintf(playersInfo, " Rank %d : %d(%s)\n", i, players[i].score, players[i].username);
+		addstr(playersInfo);
+		i++;
+	}
+	addstr("\n");
+	addstr(BACKKEY);
+	while(getch() != 'b'){
+	}
 }
 
 int main() {
