@@ -5,6 +5,8 @@
 #include<time.h>
 #include "stairs.h"
 
+#define MAX_QUEUE_SIZE 10
+
 typedef struct Stair{
 	int dir;//stair direction
 	struct Stair* next;
@@ -16,6 +18,7 @@ typedef struct{
 Header* head;
 
 void push(Stair* stair) {
+
 	if (head->next == NULL) {
 		head->next = stair;
 		head->last = stair;
@@ -40,9 +43,11 @@ void init(){
 	//create struct stair and push it
 	srand(time(0));
 	head = (Header*)malloc(sizeof(Header));
+	head->next = NULL;
+	head->next = NULL;
 
 	//create 10 stair and push
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < MAX_QUEUE_SIZE; i++) {
 		push(createStair());
 	}
 }
@@ -79,4 +84,14 @@ int isCorrectDirection(int key){
 	//poll and compare direction
 	Stair* stair = poll();
 	return stair->dir == key;
+}
+int* getStairsDir(){
+	int idx = 0;
+	int* arr=(int*)malloc(sizeof(int)*MAX_QUEUE_SIZE);
+	Stair* stair = head->next;
+	while(stair != NULL){
+		arr[idx++] = stair->dir;
+		stair = stair->next;
+	}	
+	return arr;
 }
