@@ -16,6 +16,7 @@ typedef struct{
 Header* head;
 
 void push(Stair* stair) {
+
 	if (head->next == NULL) {
 		head->next = stair;
 		head->last = stair;
@@ -40,6 +41,8 @@ void init(){
 	//create struct stair and push it
 	srand(time(0));
 	head = (Header*)malloc(sizeof(Header));
+	head->next = NULL;
+	head->next = NULL;
 
 	//create 10 stair and push
 	for (int i = 0; i < 10; i++) {
@@ -79,4 +82,14 @@ int isCorrectDirection(int key){
 	//poll and compare direction
 	Stair* stair = poll();
 	return stair->dir == key;
+}
+int* getStairsDir(){
+	int idx = 0;
+	int* arr=(int*)malloc(sizeof(int));
+	Stair* stair = head->next;
+	while(stair != NULL){
+		arr[idx++] = stair->dir;
+		stair = stair->next;
+	}	
+	return arr;
 }
