@@ -46,14 +46,3 @@ void printRank(Players unit){
 	addstr(BACKKEY);
 	refresh();
 }
-int main(){
-	help();
-	Player players[10];
-	Players unit;
-	unit.members = players;
-	unit.members[0].score = 10;
-	unit.size = 1;
-	strcpy(unit.members[0].username, "ABC");
-	printRank(unit);
-}
-
