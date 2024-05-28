@@ -1,50 +1,117 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<string.h>
 #include<curses.h>
 #include<unistd.h>
 #include<signal.h>
+#include<sys/time.h>
+#include "stairs.h"
+#include "textmanager.h"
+
+#define SUCESS 1
+#define FAIL 0
+#define GAME_OVER_TIME 10
 
 int score;
-int CheckKeyDirection(int key) {
-	//success return 1, fail 0
+int gameOver;
+int currentTime;
 
-	if () {
+int setTicker(int n_msecs) {
+	struct itimerval new_timeset;
+	long n_sec, n_usecs;
+
+	n_sec = n_msecs / 1000;
+	n_usecs = (n_msecs % 1000) * 1000L;
+
+	new_timeset.it_interval.tv_sec = n_sec;
+	new_timeset.it_interval.tv_usec = n_usecs;
+	new_timeset.it_value.tv_sec = n_sec;
+	new_timeset.it_value.tv_usec = n_usecs;
+
+	return setitimer(ITIMER_REAL, &new_timeset, NULL);
+}
+void handleFailKey() {
+	//this func handle GameOver case
+	setTicker(0);// kill timer
+	signal(SIGALRM, SIG_IGN);
+	gameOver = 1;// gameOver
+	clearQueue();
+	clear();
+	printw("gameover");
+	refresh();
+	//*to do : invoke showGameOverView(score) in outputView.c and show GameOverView*
+	//*to do : Input PlayerName and invoke scoreInput(userName, score) in textManager.c*
+	//input conditions are 3 Size input and Uppercase Alphabet
+}
+void tickEvent() {
+	currentTime--;
+	//*to do : invoke setTimeOverGage(currentTime) in outputView.c and show GameOverView
+	clear();
+	printw("%d",currentTime);
+	refresh();
+	if (currentTime <= 0) {
+		handleFailKey();
+	}
+}
+void CheckKeyDirection(int key) {
+	//success return 1, fail 0
+	if (isCorrectDirection(key)) {
 		//if isCorrectKey(key) is true in stairs.c
-		//flus score
-		//alarm(time) reset
-		//invoke SuccessKeyHandler
+		clear();
+		printw("correct");
+		refresh();
+		score++;
+		currentTime = GAME_OVER_TIME;
+		//*to do : invoke showPlayingView() in outputView.c func print playing view
 	}
 	else {
 		//if isCorrectKey(key) is false in stairs.c
-		// alarm(0) init
-		//invoke FailKeyHandler
-		exit(0);
+		clear();
+		printw("unCorrect");
+		refresh();
+		handleFailKey();
 	}
 }
 void countDown() {
 	int time = 3;
 	while (time--) {
-		//invoke showCountDown(time) in outputView.c func print 3,2,1 count down view
+		//*to do :invoke showCountDown(time) in outputView.c func print 3,2,1 count down view*
+		clear();
+		printw("wait");
+		refresh();
 		sleep(1);
 	}
 }
 void startGame(){
-	//invoke init() in stairs.c	
-	//signal(SIG_ARLM,hadleFailKey func in FailKeyHandler.c)
-	//init alarm()
-	
+	clear();
+	printw("startGame!");
+	refresh();
+	void tickEvent();
+	init();//invoke init() in stairs.c
+	score = 0;
+	gameOver = 0;
+	currentTime = GAME_OVER_TIME;
+	signal(SIGALRM, tickEvent);
 	//three count down before game start
 	countDown();
 
-	//invoke showPlayingView() in outputView.c func print playing view
-	
-	while (1) {
-		int key = getch();
-		if (key == KEY_LEFT || KEY_RIGHT) {
-		CheckKeyDirection(key);
+	//*todo : invoke showPlayingView() in outputView.c func print playing view
+
+	if (setTicker(1000) == -1) {
+		perror("[InfStair] fail setTicker");
+	}
+
+	int key;
+	while (!gameOver) {
+		key = getch();
+		clear();
+		printw("%d", key);
+		refresh();
+		if (key == KEY_LEFT || key == KEY_RIGHT) {
+			CheckKeyDirection(key);
 		}
 	}
-	
+
+
 }
+
 
