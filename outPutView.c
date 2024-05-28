@@ -4,9 +4,11 @@
 #include <unistd.h>
 #include <curses.h>
 #include "textmanager.h"
+#include "stair.h"
 
 #define BLANK " "
 #define ARROW ">"
+#define STAIR "_"
 #define ENTER 10
 #define BACKKEY "> back key 'b'\n\n"
 
@@ -47,11 +49,13 @@ void enterMode(int select) {
 	}
 }
 
+
 void add(char * message) {
 	addstr(message);
 	prt_row++;
 	move(prt_row, 0);
 }
+
 
 void showMainView() {
 	initscr();
@@ -161,7 +165,77 @@ void printRank(){
 	}
 }
 
-int main() {
-	showMainView();
-	setSelectionCursor();
+void showPlayingView() {
+	
+	initscr();
+	crmode();
+	noecho();
+
+	move(0, 0);
+	add("                                                                 ");
+	add("              ================================================== ");
+	add("             |//////////////////////////////////////////////////|");
+	add("             |//////////////////////////////////////////////////|");
+	add("              ================================================== ");
+	move(25, 40);
+	add("o");
+	
+	int score = 0;
+	char score[100] = { 0 };
+	move(1, 60);
+	addstr(score);
+	refresh();
+
+	int stairs[MAX_QUEUE_SIZE];
+	stairs = getStairDir();
+
+	while(1) {
+		printStairs(stairs);
+		int key = getch();
+		if(isCorrectDirection(key)) {
+			clearStairs(stairs);
+			push(stair);  // ??
+			score += 10;
+			move(1, 60);
+			addstr(score);
+		}
+		else {
+				
+		}
+	}
+	
+}
+
+void printStairs(int stairs[]) {
+
+	int stairs[MAX_QUEUE_SIZE];
+	stairs = getStairDir();
+	int stair_col = 40;
+
+	for (int i = 0; i < MAX_QUEUE_SIZE; i++) {
+		if (stairs[i] == KEY_LEFT) {
+			move(25-i-1, --stair_col);
+			addstr(STAIR);
+		} else if (stairs[i] == KEY_RIGHT) {
+			move(25-i-1, ++stair_col);
+			addstr(STAIR);
+		}
+	}
+}
+
+void clearStairs(int stairs[]) {
+
+	int stairs[MAX_QUEUE_SIZE];
+	stairs = getStairDir();
+	int clear_col = 40;
+
+	for (int i = 0; i < MAX_QUEUE_SIZE; i++) {
+		if (stairs[i] == KEY_LEFT) {
+			move(25-i-1, --clear_col);
+			addstr(BLANK);
+		} else if (stairs[i] == KEY_RIGHT) {
+			move(25-i-1, ++clear_col);
+			addstr(BLANK);
+		}
+	}
 }
