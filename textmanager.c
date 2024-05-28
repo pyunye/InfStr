@@ -17,10 +17,12 @@ void scoreInput(char *username, int score) {
     fclose(f);
 }
 
-Player *scoreOutput() {
+Players scoreOutput() {
     FILE *f;
     int num_players = 0;
     Player *players = malloc(MAX_SIZE * sizeof(Player)); 
+    Players unit;
+    unit.members = players;
 
     // 파일 열기
     if ((f = fopen("score.txt", "r")) == NULL) {
@@ -32,14 +34,13 @@ Player *scoreOutput() {
     while (fscanf(f, "%s %d", players[num_players].username, &players[num_players].score) != EOF) {
         (num_players)++;
     }
-
+    unit.size = num_players;
     // 소팅
-    qsort(players, num_players, sizeof(Player), compare);
-
+    qsort(unit.members, unit.size, sizeof(Player), compare);
+    
     fclose(f); // 파일 닫기
     
-    players[num_players].username[0] = '\0';
-    players[num_players].score = 0;
 
-    return players;
+
+    return unit;
 }
