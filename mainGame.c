@@ -3,19 +3,31 @@
 #include<string.h>
 #include<curses.h>
 #include<unistd.h>
+#include "InfStair.h"
 
 #define ENTER 10
 #define START 0
-#define HELP 1
-#define QUIT 2
+#define RANKING 1
+#define HELP 2
+#define QUIT 3
 
 void enterMode(int select){
 	switch (select) {
 		case START: //invoke startGame() in InfStair.c
-			break; 
+			clear();
+			printw("star!");
+			startGame();1
+			break;
+		case RANKING:
+			clear();
+			printw("%d RANKING selected", select);
+			break;
 		case HELP: //invoke help() in help.c
+			clear();
+			printw("%d HELP selected ", select);
 			break;
 		case QUIT: //game quit
+			endwin();
 			exit(0);
 			break;
 	}
@@ -32,25 +44,22 @@ int main(){
 	
 	int key;
 	int select = 0;
-	while(1){
+	while (1) {
 		key = getch();
-
-		switch(key){
-			case KEY_UP: // up Arrow Key
-				select = (select - 1) < 0 ? 2 : 0 ;//three option with start, help, quit
-				//show moving up select cusor
-				addstr("up Arrow Key");
-				break;
-			case KEY_DOWN:// up Arrow Key
-                select = (select + 1) % 3;//three option with start, help, quit
-				//show moving down select cusor
-				addstr("down Arrow Key");
-                break;
-			case ENTER: // enter key
-				enterMode(select);//enter the mode of start or help or quit 
-				addstr("  enter key  ");
-				break;
+		switch (key) {
+		case KEY_UP:
+			select = (select - 1 + 4) % 4;
+			clear();
+			printw("%d", select);
+			break;
+		case KEY_DOWN:
+			select = (select + 1) % 4;
+			clear();
+			printw("%d", select);
+			break;
+		case ENTER:
+			enterMode(select);
+			break;
 		}
 	}
-		
 }
