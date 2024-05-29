@@ -11,16 +11,15 @@
 #define ENTER 10
 #define BACKKEY "> back key 'b'\n\n"
 
-int prt_row = 0;
-/*
 int row = 17;
 int col = 23;
 int pre_row = 17;
-int prt_row = 0; // print row of main view
+int prt_row = 0; // print row
 
 void showPlayingView();
 void printHelp();
 void printRank();
+void showScore(int score, int col);
 
 void enterMode(int select) {
 	switch (select) {
@@ -49,14 +48,12 @@ void enterMode(int select) {
 	}
 }
 
-*/
 void add(char * message) {
 	addstr(message);
 	prt_row++;
 	move(prt_row, 0);
 }
 
-/*
 void showMainView() {
 	initscr();
 	crmode();
@@ -65,6 +62,7 @@ void showMainView() {
 	clear();
 	curs_set(0);
 	
+	int prt_row = 0;
 	move(0, 0);
 	add("                                                               ");
     	add("     _____  _   _ ______  _____  _   _  _____  _____  _____    ");
@@ -171,8 +169,6 @@ void showPlayingView() {
 	move(1, 60);
 	addstr(score);
 
-
-
 	int stairs[MAX_QUEUE_SIZE];
 	stairs = getStairDir();
 
@@ -226,19 +222,20 @@ void clearStairs(int stairs[]) {
 		}
 	}
 }
-*/
+
 
 void showScore(int score, int col);
 
-int main() {
-
+void showGameOverView(int score) {
 	initscr();
         crmode();
         noecho();
 	clear();
 	
-	move(30, 0);
-	add("         ######      ####    ##       ## ########              #####    ##       ##  #######  #######        ###        "); 
+	move(5, 0);
+	prt_row = 5;
+
+	add("         ######      ####    ##       ## ########              #####    ##       ##  #######  #######        ###       "); 
         add("       ##     ##    ##  ##   ###    #### ##                  ###   ###  ##       ##  ##       ##    ##       ###       ");
         add("      ##           ##    ##  ## ## ## ## ##                 ##       ## ##       ##  ##       ##    ##       ###       ");
         add("      ##    ##### ########## ##  ###  ## ########           ##       ##  ##     ##   #######  #######        ###       ");
@@ -246,34 +243,30 @@ int main() {
         add("       ##     ##  ##      ## ##       ## ##                  ###   ###     ## ##     ##       ##     ##                ");
         add("        #######   ##      ## ##       ## ########              #####        ###      #######  ##      ##     ###       ");
                      
-
-	move(60, 0);
-	add("                                    ######    ######     #####     ######     ########                                 ");
-        add("                                   ##    ##  ##        ###   ###   ##    ##   ##                                       ");
-        add("                                   ##       ##        ##       ##  ##    ##   ##            ##                         ");
-        add("                                    #####   ##        ##       ##  ######     ########                                 ");
-        add("                                         ## ##        ##       ##  ##    ##   ##            ##                         ");
-        add("                                   ##    ##  ##        ###   ###   ##     ##  ##                                       ");
-        add("                                    ######    ######     #####     ##      ## ########                                 ");
+	prt_row = 20;
+	move(20, 0);
+	add("  ######    ######     #####     ######     ########            ");
+        add(" ##    ##  ##        ###   ###   ##    ##   ##                  ");
+        add(" ##       ##        ##       ##  ##    ##   ##            ##    ");
+        add("  #####   ##        ##       ##  ######     ########            ");
+        add("       ## ##        ##       ##  ##    ##   ##            ##    ");
+        add(" ##    ##  ##        ###   ###   ##     ##  ##                  ");
+        add("  ######    ######     #####     ##      ## ########            ");
 
 	int score_len = 0;
 	int score_num = score;	
+	int score_col = 12;
+
 	while (score_num != 0) {
 		score_len++;
 		score_num /= 10;
 	}
 	
-	if (score_len % 2 == 0) {
-		for(int i = score_len - 1; i >= 0; i--) {
-			showScore(score % 10, 30 +  12 * ( i - score_len / 2));
-			score /= 10;
-		}
-	} else {
-		for(int i = score_len - 1; i >= 0; i--) {
-			showScore(score % 10, 36 + 12 * ( i - (score_len + 1) / 2)); 
-			score /= 10;
-		}	
-	}
+	for(int i = 0; i < score_len; i++) {
+		showScore(score % 10, 64 + score_col); 
+		score /= 10;
+		score_col *= 2;
+	}	
 
 	refresh();
 }
@@ -282,95 +275,95 @@ void showScore(int score, int col) {
 
 	switch(score) {
 		case 0:
-			addstr("    ####    ");
-			addstr("  ##    ##  ");
-     	                addstr(" ##      ## ");
-			addstr(" ##      ## ");
-			addstr(" ##      ## ");
-			addstr("  ##    ##  ");
-			addstr("    ####    ");
+			mvprintw(20, col, "    ####    ");
+			mvprintw(21, col, "  ##    ##  ");
+     	                mvprintw(22, col, " ##      ## ");
+			mvprintw(23, col, " ##      ## ");
+			mvprintw(24, col, " ##      ## ");
+			mvprintw(25, col, "  ##    ##  ");
+			mvprintw(26, col, "    ####    ");
 									 
 		case 1:
-			addstr("     ###    ");
-                        addstr("    ####    ");
-			addstr("  ##  ##    ");
-	                addstr("      ##    ");
-	                addstr("      ##    ");
-	                addstr("      ##    ");
-			addstr(" ########## ");
+			mvprintw(20, col, "     ###    ");
+                        mvprintw(21, col, "    ####    ");
+			mvprintw(22, col, "  ##  ##    ");
+	                mvprintw(23, col, "      ##    ");
+	                mvprintw(24, col, "      ##    ");
+	                mvprintw(25, col, "      ##    ");
+			mvprintw(26, col, "  ######### ");
 
 		case 2:
-			addstr("   ######   ");
-			addstr("  ##    ##  ");
-			addstr("       ###  ");
-			addstr("      ###   ");
-			addstr("    ###     ");
-			addstr("  ###       ");
-			addstr(" ########## ");
+			mvprintw(20, col, "   ######   ");
+			mvprintw(21, col, "  ##    ##  ");
+			mvprintw(22, col, "       ###  ");
+			mvprintw(23, col, "      ###   ");
+			mvprintw(24, col, "    ###     ");
+			mvprintw(25, col, "  ###       ");
+			mvprintw(26, col, " ########## ");
 				
 		case 3:
-			addstr("   ######   ");
-			addstr(" ###    ### ");
-			addstr("        ### ");
-			addstr("     ####   ");
-			addstr("        ### ");
-			addstr(" ###    ### ");
-			addstr("   ######   ");
+			mvprintw(20, col, "   ######   ");
+			mvprintw(21, col, " ###    ### ");
+			mvprintw(22, col, "        ### ");
+			mvprintw(23, col, "     ####   ");
+			mvprintw(24, col, "        ### ");
+			mvprintw(25, col, " ###    ### ");
+			mvprintw(26, col, "   ######   ");
 				
 		case 4:               
-                        addstr("     ####   ");
-                        addstr("    ## ##   ");
-                        addstr("   ##  ##   ");
-                        addstr("  ##   ##   ");
-                        addstr(" ########## ");
-                        addstr("       ##   ");
-                        addstr("       ##   ");
+                        mvprintw(20, col, "     ####   ");
+                        mvprintw(21, col, "    ## ##   ");
+                        mvprintw(22, col, "   ##  ##   ");
+                        mvprintw(23, col, "  ##   ##   ");
+                        mvprintw(24, col, " ########## ");
+                        mvprintw(25, col, "       ##   ");
+                        mvprintw(26, col, "       ##   ");
 										
 		case 5:		
-                        add(" ########## ");
-                        add(" ##         ");
-                        add(" ##         ");
-                        add(" #########  ");
-                        add("         ## ");
-                        add("         ## ");
-                        add(" #########  ");
+                        mvprintw(20, col, " ########## ");
+                        mvprintw(21, col, " ##         ");
+                        mvprintw(22, col, " ##         ");
+                        mvprintw(23, col, " #########  ");
+                        mvprintw(24, col, "         ## ");
+                        mvprintw(25, col, "         ## ");
+                        mvprintw(26, col, " #########  ");
 
                 case 6:
-                        add("  ########  ");
-                        add(" ##      ## ");
-                        add(" ##         ");
-                        add(" #########  ");
-                        add(" ##      ## ");
-                        add(" ##      ## ");
-                        add("  ########  ");
+                        mvprintw(20, col, "  ########  ");
+                        mvprintw(21, col, " ##      ## ");
+                        mvprintw(22, col, " ##         ");
+                        mvprintw(23, col, " #########  ");
+                        mvprintw(24, col, " ##      ## ");
+                        mvprintw(25, col, " ##      ## ");
+                        mvprintw(26, col, "  ########  ");
 
                 case 7:
-                        add("                                           ##########                                               ");
-                        add("                                                  ##                                                ");
-                        add("                                                 ##                                                 ");
-                        add("                                                ##                                                  ");
-                        add("                                               ##                                                   ");
-                        add("                                              ##                                                    ");
-                        add("                                             ##                                                     ");
+                        mvprintw(20, col, " ########## ");
+                        mvprintw(21, col, "        ##  ");
+                        mvprintw(22, col, "       ##   ");
+                        mvprintw(23, col, "      ##    ");
+                        mvprintw(24, col, "     ##     ");
+                        mvprintw(25, col, "    ##      ");
+                        mvprintw(26, col, "   ##       ");
 
                 case 8:
-                        add("                                            ########                                                ");
-                        add("                                           ##      ##                                               ");
-                        add("                                           ##      ##                                               ");
-                        add("                                            ########                                                ");
-                        add("                                           ##      ##                                               ");
-                        add("                                           ##      ##                                               ");
-                        add("                                            ########                                                ");
+                        mvprintw(20, col, "  ########  ");
+                        mvprintw(21, col, " ##      ## ");
+                        mvprintw(22, col, " ##      ## ");
+                        mvprintw(23, col, "  ########  ");
+                        mvprintw(24, col, " ##      ## ");
+                        mvprintw(25, col, " ##      ## ");
+                        mvprintw(26, col, "  ########  ");
 
                 case 9:
-                        add("                                             #######                                                ");
-                        add("                                            ##     ##                                               ");
-                        add("                                            ##     ##                                               ");
-                        add("                                             #######                                                ");
-                        add("                                                 ##                                                 ");
-                        add("                                                ##                                                  ");
-                        add("                                               ##                                                   ");
+                        mvprintw(20, col, "  #######  ");
+                        mvprintw(21, col, " ##     ## ");
+                        mvprintw(22, col, " ##     ## ");
+                        mvprintw(23, col, "  #######  ");
+                        mvprintw(24, col, "      ##   ");
+                        mvprintw(25, col, "     ##    ");
+                        mvprintw(26, col, "    ##     ");
 
 				
-				}   
+		}   
 }
