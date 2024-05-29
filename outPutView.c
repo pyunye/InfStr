@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include <curses.h>
 #include "textmanager.h"
-#include "stair.h"
 
 #define BLANK " "
 #define ARROW ">"
@@ -12,7 +11,8 @@
 #define ENTER 10
 #define BACKKEY "> back key 'b'\n\n"
 
-
+int prt_row = 0;
+/*
 int row = 17;
 int col = 23;
 int pre_row = 17;
@@ -49,14 +49,14 @@ void enterMode(int select) {
 	}
 }
 
-
+*/
 void add(char * message) {
 	addstr(message);
 	prt_row++;
 	move(prt_row, 0);
 }
 
-
+/*
 void showMainView() {
 	initscr();
 	crmode();
@@ -135,34 +135,29 @@ void setSelectionCursor() {
 	endwin();
 }
 
-void printHelp(){
-	char helpText[512] = "<<<<<	Help : Infinite Stair	  >>>>>\n\n* Press left or right to move upstair!\n* If you do not press any button for a long time or press a wrong button, game is over.\n* If you get a coin, you can press the button slowly.\n\n";
+void printHelp(char text[]){
 	initscr();
 	noecho();
 	clear();
-	addstr(helpText);
+	addstr(text);
 	addstr(BACKKEY);
 	refresh();
-	while(getch() != 'b'){
-	}
 }
 
-void printRank(){
-	Player *players = scoreOutput();
+void printRank(Players unit){
 	initscr();
 	noecho();
 	clear();
-	int i = 1;
 	char playersInfo[256];
-	while(i <= 10 && players[i].username[0] != '\0'){
-		sprintf(playersInfo, " Rank %d : %d(%s)\n", i, players[i].score, players[i].username);
+	int i;
+	while(i < unit.size && i < 10){
+		sprintf(playersInfo, " Rank %d : %d(%s)\n", i+1, unit.members[i].score, unit.members[i].username);
 		addstr(playersInfo);
 		i++;
 	}
 	addstr("\n");
 	addstr(BACKKEY);
-	while(getch() != 'b'){
-	}
+	refresh();
 }
 
 void showPlayingView() {
@@ -171,20 +166,12 @@ void showPlayingView() {
 	crmode();
 	noecho();
 
-	move(0, 0);
-	add("                                                                 ");
-	add("              ================================================== ");
-	add("             |//////////////////////////////////////////////////|");
-	add("             |//////////////////////////////////////////////////|");
-	add("              ================================================== ");
-	move(25, 40);
-	add("o");
-	
 	int score = 0;
 	char score[100] = { 0 };
 	move(1, 60);
 	addstr(score);
-	refresh();
+
+
 
 	int stairs[MAX_QUEUE_SIZE];
 	stairs = getStairDir();
@@ -194,16 +181,16 @@ void showPlayingView() {
 		int key = getch();
 		if(isCorrectDirection(key)) {
 			clearStairs(stairs);
-			push(stair);  // ??
 			score += 10;
 			move(1, 60);
 			addstr(score);
 		}
 		else {
-				
+			showGameOverView(score);				
 		}
-	}
-	
+
+		refresh();
+	}	
 }
 
 void printStairs(int stairs[]) {
@@ -238,4 +225,152 @@ void clearStairs(int stairs[]) {
 			addstr(BLANK);
 		}
 	}
+}
+*/
+
+void showScore(int score, int col);
+
+int main() {
+
+	initscr();
+        crmode();
+        noecho();
+	clear();
+	
+	move(30, 0);
+	add("         ######      ####    ##       ## ########              #####    ##       ##  #######  #######        ###        "); 
+        add("       ##     ##    ##  ##   ###    #### ##                  ###   ###  ##       ##  ##       ##    ##       ###       ");
+        add("      ##           ##    ##  ## ## ## ## ##                 ##       ## ##       ##  ##       ##    ##       ###       ");
+        add("      ##    ##### ########## ##  ###  ## ########           ##       ##  ##     ##   #######  #######        ###       ");
+        add("      ##      ##  ##      ## ##       ## ##                 ##       ##   ##   ##    ##       ##    ##       ###       ");
+        add("       ##     ##  ##      ## ##       ## ##                  ###   ###     ## ##     ##       ##     ##                ");
+        add("        #######   ##      ## ##       ## ########              #####        ###      #######  ##      ##     ###       ");
+                     
+
+	move(60, 0);
+	add("                                    ######    ######     #####     ######     ########                                 ");
+        add("                                   ##    ##  ##        ###   ###   ##    ##   ##                                       ");
+        add("                                   ##       ##        ##       ##  ##    ##   ##            ##                         ");
+        add("                                    #####   ##        ##       ##  ######     ########                                 ");
+        add("                                         ## ##        ##       ##  ##    ##   ##            ##                         ");
+        add("                                   ##    ##  ##        ###   ###   ##     ##  ##                                       ");
+        add("                                    ######    ######     #####     ##      ## ########                                 ");
+
+	int score_len = 0;
+	int score_num = score;	
+	while (score_num != 0) {
+		score_len++;
+		score_num /= 10;
+	}
+	
+	if (score_len % 2 == 0) {
+		for(int i = score_len - 1; i >= 0; i--) {
+			showScore(score % 10, 30 +  12 * ( i - score_len / 2));
+			score /= 10;
+		}
+	} else {
+		for(int i = score_len - 1; i >= 0; i--) {
+			showScore(score % 10, 36 + 12 * ( i - (score_len + 1) / 2)); 
+			score /= 10;
+		}	
+	}
+
+	refresh();
+}
+
+void showScore(int score, int col) {
+
+	switch(score) {
+		case 0:
+			addstr("    ####    ");
+			addstr("  ##    ##  ");
+     	                addstr(" ##      ## ");
+			addstr(" ##      ## ");
+			addstr(" ##      ## ");
+			addstr("  ##    ##  ");
+			addstr("    ####    ");
+									 
+		case 1:
+			addstr("     ###    ");
+                        addstr("    ####    ");
+			addstr("  ##  ##    ");
+	                addstr("      ##    ");
+	                addstr("      ##    ");
+	                addstr("      ##    ");
+			addstr(" ########## ");
+
+		case 2:
+			addstr("   ######   ");
+			addstr("  ##    ##  ");
+			addstr("       ###  ");
+			addstr("      ###   ");
+			addstr("    ###     ");
+			addstr("  ###       ");
+			addstr(" ########## ");
+				
+		case 3:
+			addstr("   ######   ");
+			addstr(" ###    ### ");
+			addstr("        ### ");
+			addstr("     ####   ");
+			addstr("        ### ");
+			addstr(" ###    ### ");
+			addstr("   ######   ");
+				
+		case 4:               
+                        addstr("     ####   ");
+                        addstr("    ## ##   ");
+                        addstr("   ##  ##   ");
+                        addstr("  ##   ##   ");
+                        addstr(" ########## ");
+                        addstr("       ##   ");
+                        addstr("       ##   ");
+										
+		case 5:		
+                        add(" ########## ");
+                        add(" ##         ");
+                        add(" ##         ");
+                        add(" #########  ");
+                        add("         ## ");
+                        add("         ## ");
+                        add(" #########  ");
+
+                case 6:
+                        add("  ########  ");
+                        add(" ##      ## ");
+                        add(" ##         ");
+                        add(" #########  ");
+                        add(" ##      ## ");
+                        add(" ##      ## ");
+                        add("  ########  ");
+
+                case 7:
+                        add("                                           ##########                                               ");
+                        add("                                                  ##                                                ");
+                        add("                                                 ##                                                 ");
+                        add("                                                ##                                                  ");
+                        add("                                               ##                                                   ");
+                        add("                                              ##                                                    ");
+                        add("                                             ##                                                     ");
+
+                case 8:
+                        add("                                            ########                                                ");
+                        add("                                           ##      ##                                               ");
+                        add("                                           ##      ##                                               ");
+                        add("                                            ########                                                ");
+                        add("                                           ##      ##                                               ");
+                        add("                                           ##      ##                                               ");
+                        add("                                            ########                                                ");
+
+                case 9:
+                        add("                                             #######                                                ");
+                        add("                                            ##     ##                                               ");
+                        add("                                            ##     ##                                               ");
+                        add("                                             #######                                                ");
+                        add("                                                 ##                                                 ");
+                        add("                                                ##                                                  ");
+                        add("                                               ##                                                   ");
+
+				
+				}   
 }
