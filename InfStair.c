@@ -1,16 +1,22 @@
-#include<stdio.h>
-#include<stdlib.h>
 #include<curses.h>
+#include<stdlib.h>
 #include<unistd.h>
 #include<signal.h>
 #include<sys/time.h>
 #include "stairs.h"
+#include "InfStair.h"
 #include "textmanager.h"
 #include "gameOver.h"
 
 #define SUCESS 1
 #define FAIL 0
 #define GAME_OVER_TIME 10
+
+int setTicker(int n_msecs);
+void handleFailKey();
+void tickEvent();
+void CheckKeyDirection(int key);
+void countDown();
 
 int score;
 int gameOver;
@@ -34,9 +40,10 @@ void handleFailKey() {
 	//this func handle GameOver case
 	signal(SIGALRM, SIG_IGN);
 	gameOver = 1;// gameOver
-	clearQueue();
 	char* userName = inputUserName();
 	scoreInput(userName,score);
+	free(userName);
+	clearQueue();
 	//*to do : invoke showGameOverView(score) in outputView.c and show GameOverView*
 }
 void tickEvent() {
@@ -50,10 +57,8 @@ void tickEvent() {
 	}
 }
 void CheckKeyDirection(int key) {
-	//success return 1, fail 0
 	if (isCorrectDirection(key)) {
 		//if isCorrectKey(key) is true in stairs.c
-
 		printw("correct");
 		refresh();
 		score++;
@@ -77,7 +82,6 @@ void countDown() {
 	}
 }
 void startGame(){
-	initscr();
 	void tickEvent();
 	init();//invoke init() in stairs.c
 	score = 0;
@@ -100,7 +104,6 @@ void startGame(){
 			CheckKeyDirection(key);
 		}
 	}
-
 
 }
 
