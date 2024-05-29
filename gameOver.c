@@ -33,7 +33,6 @@ char* inputUserName() {
     int start_y = (height - BOX_HEIGHT) / 2;
     int start_x = (width - BOX_WIDTH) / 2;
 
-
     // 박스 생성
     WINDOW* win = newwin(BOX_HEIGHT, BOX_WIDTH, start_y, start_x);
     box(win, 0, 0);

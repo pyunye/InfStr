@@ -16,7 +16,7 @@ void enterMode(int select){
 		case START: //invoke startGame() in InfStair.c
 			clear();
 			printw("star!");
-			startGame();1
+			startGame();
 			break;
 		case RANKING:
 			clear();

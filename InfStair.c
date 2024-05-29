@@ -62,7 +62,6 @@ void CheckKeyDirection(int key) {
 	}
 	else {
 		//if isCorrectKey(key) is false in stairs.c
-
 		printw("unCorrect");
 		refresh();
 		handleFailKey();
