@@ -1,6 +1,4 @@
-#include<stdio.h>
 #include<stdlib.h>
-#include<string.h>
 #include<curses.h>
 #include<unistd.h>
 #include "InfStair.h"
@@ -14,16 +12,13 @@
 void enterMode(int select){
 	switch (select) {
 		case START: //invoke startGame() in InfStair.c
-			clear();
-			printw("star!");
-			startGame();1
+			printw("start!");
+			startGame();
 			break;
 		case RANKING:
-			clear();
 			printw("%d RANKING selected", select);
 			break;
 		case HELP: //invoke help() in help.c
-			clear();
 			printw("%d HELP selected ", select);
 			break;
 		case QUIT: //game quit
@@ -49,12 +44,10 @@ int main(){
 		switch (key) {
 		case KEY_UP:
 			select = (select - 1 + 4) % 4;
-			clear();
 			printw("%d", select);
 			break;
 		case KEY_DOWN:
 			select = (select + 1) % 4;
-			clear();
 			printw("%d", select);
 			break;
 		case ENTER:

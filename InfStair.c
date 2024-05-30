@@ -1,15 +1,22 @@
-#include<stdio.h>
-#include<stdlib.h>
 #include<curses.h>
+#include<stdlib.h>
 #include<unistd.h>
 #include<signal.h>
 #include<sys/time.h>
 #include "stairs.h"
+#include "InfStair.h"
 #include "textmanager.h"
+#include "gameOver.h"
 
 #define SUCESS 1
 #define FAIL 0
 #define GAME_OVER_TIME 10
+
+int setTicker(int n_msecs);
+void handleFailKey();
+void tickEvent();
+void CheckKeyDirection(int key);
+void countDown();
 
 int score;
 int gameOver;
@@ -31,16 +38,13 @@ int setTicker(int n_msecs) {
 }
 void handleFailKey() {
 	//this func handle GameOver case
-	setTicker(0);// kill timer
 	signal(SIGALRM, SIG_IGN);
 	gameOver = 1;// gameOver
+	char* userName = inputUserName();
+	scoreInput(userName,score);
+	free(userName);
 	clearQueue();
-	clear();
-	printw("gameover");
-	refresh();
 	//*to do : invoke showGameOverView(score) in outputView.c and show GameOverView*
-	//*to do : Input PlayerName and invoke scoreInput(userName, score) in textManager.c*
-	//input conditions are 3 Size input and Uppercase Alphabet
 }
 void tickEvent() {
 	currentTime--;
@@ -53,10 +57,8 @@ void tickEvent() {
 	}
 }
 void CheckKeyDirection(int key) {
-	//success return 1, fail 0
 	if (isCorrectDirection(key)) {
 		//if isCorrectKey(key) is true in stairs.c
-		clear();
 		printw("correct");
 		refresh();
 		score++;
@@ -65,7 +67,6 @@ void CheckKeyDirection(int key) {
 	}
 	else {
 		//if isCorrectKey(key) is false in stairs.c
-		clear();
 		printw("unCorrect");
 		refresh();
 		handleFailKey();
@@ -75,16 +76,12 @@ void countDown() {
 	int time = 3;
 	while (time--) {
 		//*to do :invoke showCountDown(time) in outputView.c func print 3,2,1 count down view*
-		clear();
 		printw("wait");
 		refresh();
 		sleep(1);
 	}
 }
 void startGame(){
-	clear();
-	printw("startGame!");
-	refresh();
 	void tickEvent();
 	init();//invoke init() in stairs.c
 	score = 0;
@@ -103,14 +100,10 @@ void startGame(){
 	int key;
 	while (!gameOver) {
 		key = getch();
-		clear();
-		printw("%d", key);
-		refresh();
 		if (key == KEY_LEFT || key == KEY_RIGHT) {
 			CheckKeyDirection(key);
 		}
 	}
-
 
 }
 

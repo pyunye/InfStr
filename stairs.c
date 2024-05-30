@@ -1,6 +1,4 @@
-#include<stdio.h>
 #include<stdlib.h>
-#include<string.h>
 #include<curses.h>
 #include<time.h>
 #include "stairs.h"
@@ -15,10 +13,10 @@ typedef struct{
 	Stair* next;
 	Stair* last;
 }Header;
+
 Header* head;
 
 void push(Stair* stair) {
-
 	if (head->next == NULL) {
 		head->next = stair;
 		head->last = stair;
@@ -33,6 +31,7 @@ Stair* createStair(){
 	int randomDir = rand() % 2; // create Random Direction
 	Stair* newStair = (Stair*)malloc(sizeof(Stair));
 	newStair->dir = (randomDir == 0) ? KEY_LEFT : KEY_RIGHT; // 0 KEY_LEFT, 1 KEY_RIGHT
+	newStair->next = NULL;
 	return newStair;
 }
 void createNewStair() {
@@ -44,18 +43,18 @@ void init(){
 	srand(time(0));
 	head = (Header*)malloc(sizeof(Header));
 	head->next = NULL;
-	head->next = NULL;
+	head->last = NULL;
 
 	//create 10 stair and push
 	for (int i = 0; i < MAX_QUEUE_SIZE; i++) {
 		push(createStair());
 	}
 }
-Stair* poll(){
+Stair* offer(){
 	// poll element and return stair
 	if (head->next == NULL) {
 		//if queue is empty, process exit
-		perror("[stairs.c] stair queue is empty");
+		return NULL;
 	}
 
 	Stair* popStair = head->next;
@@ -82,7 +81,7 @@ void clearQueue(){
 }
 int isCorrectDirection(int key){
 	//poll and compare direction
-	Stair* stair = poll();
+	Stair* stair = offer();
 	return stair->dir == key;
 }
 int* getStairsDir(){
