@@ -265,6 +265,7 @@ void showGameOverView(int score) {
 		score /= 10;
 	}	
 	refresh();
+	keypad(stdscr, TRUE);
 	char username[MAX_SIZE] = inputUserName();
 	scoreInput(username, score);
 }
