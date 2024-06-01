@@ -3,7 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <curses.h>
-#include "outputView.h"
+#include "outPutView.h"
 #include "stairs.h"
 
 #define BLANK " "
@@ -81,7 +81,7 @@ void setSelectionCursor(int select) {
 	}
 	addstr(BLANK);
 
-	old_selection = select;
+	old_select = select;
 	switch (select) {
 		case 0:
 			move(17, 23);
