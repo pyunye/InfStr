@@ -8,7 +8,7 @@
 
 #define BLANK " "
 #define ARROW ">"
-#define STAIR "###"
+#define STAIR "[###]"
 #define ENTER 10
 #define BACKKEY "> back key 'b'\n\n"
 
@@ -135,22 +135,18 @@ void printStairs(int stairs[]) {
 	int player_col= 40;
 	int player_row = 25;
 
-	int move_row = 3;
+	int move_row = 2;
 	int move_col = 5;
 	int stair_row = player_row;
 	int stair_col = player_col;
 
-	move(player_row, player_col);
-	addstr(STAIR);
 	move(player_row - 1, player_col + 1);
 	addstr("*");
-	for (int i = 1; i < MAX_QUEUE_SIZE; i++) {
-		stair_row -= move_row;
-		stair_col += (stairs[i] == KEY_LEFT) ? -move_col : move_col;
+	for (int i = 0; i < MAX_QUEUE_SIZE; i++) {
 		move(stair_row, stair_col);
 		addstr(STAIR);
-		move(stair_row-1, stair_col);
-		addstr((stairs[i] == KEY_LEFT) ? "LEFT" : "RIGHT");
+		stair_row -= move_row;
+		stair_col += (stairs[i] == KEY_LEFT) ? -move_col : move_col;
 	}
 }
 

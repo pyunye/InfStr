@@ -57,16 +57,12 @@ void tickEvent() {
 void CheckKeyDirection(int key) {
 	if (isCorrectDirection(key)) {
 		//if isCorrectKey(key) is true in stairs.c
-		printw("correct");
-		refresh();
 		score++;
 		currentTime = GAME_OVER_TIME;
 		//*to do : invoke showPlayingView() in outputView.c func print playing view
 	}
 	else {
 		//if isCorrectKey(key) is false in stairs.c
-		printw("unCorrect");
-		refresh();
 		handleFailKey();
 	}
 }
