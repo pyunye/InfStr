@@ -4,6 +4,11 @@ typedef struct {
     int score;
 } Player;
 
+typedef struct {
+	Player* members;
+	int size;
+} Players;
+
 int compare(const void* , const void*);
 void scoreInput(char*, int);
 Player *scoreOutput();

@@ -2,6 +2,7 @@
 #include<curses.h>
 #include<unistd.h>
 #include "InfStair.h"
+#include "outputView.h"
 
 #define ENTER 10
 #define START 0
@@ -12,7 +13,6 @@
 void enterMode(int select){
 	switch (select) {
 		case START: //invoke startGame() in InfStair.c
-			printw("start!");
 			startGame();
 			break;
 		case RANKING:
@@ -36,6 +36,7 @@ int main(){
 	curs_set(0);
 
 	//invoke showMainView() in outPutView.c method print mainView with title and three option(start, help, quit);
+	showMainView();
 	
 	int key;
 	int select = 0;
@@ -44,11 +45,10 @@ int main(){
 		switch (key) {
 		case KEY_UP:
 			select = (select - 1 + 4) % 4;
-			printw("%d", select);
 			break;
 		case KEY_DOWN:
 			select = (select + 1) % 4;
-			printw("%d", select);
+
 			break;
 		case ENTER:
 			enterMode(select);

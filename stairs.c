@@ -3,8 +3,6 @@
 #include<time.h>
 #include "stairs.h"
 
-#define MAX_QUEUE_SIZE 10
-
 typedef struct Stair{
 	int dir;//stair direction
 	struct Stair* next;
