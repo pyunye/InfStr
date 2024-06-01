@@ -59,6 +59,7 @@ void CheckKeyDirection(int key) {
 		//if isCorrectKey(key) is true in stairs.c
 		score++;
 		currentTime = GAME_OVER_TIME;
+		createNewStair();
 		//*to do : invoke showPlayingView() in outputView.c func print playing view
 	}
 	else {
