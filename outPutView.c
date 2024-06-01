@@ -223,22 +223,15 @@ void clearStairs(int stairs[]) {
 	}
 }
 
-
-void showScore(int score, int col);
-
 void showGameOverView(int score) {
 	initscr();
         crmode();
         noecho();
 	clear();
 	
-<<<<<<< HEAD
 	move(5, 0);
 	prt_row = 5;
 
-=======
-	move(3, 0);
->>>>>>> a5196579681935b90650b859d081495437489923
 	add("         ######      ####    ##       ## ########              #####    ##       ##  #######  #######        ###       "); 
         add("       ##     ##    ##  ##   ###    #### ##                  ###   ###  ##       ##  ##       ##    ##       ###       ");
         add("      ##           ##    ##  ## ## ## ## ##                 ##       ## ##       ##  ##       ##    ##       ###       ");
@@ -247,20 +240,16 @@ void showGameOverView(int score) {
         add("       ##     ##  ##      ## ##       ## ##                  ###   ###     ## ##     ##       ##     ##                ");
         add("        #######   ##      ## ##       ## ########              #####        ###      #######  ##      ##     ###       ");
                      
-<<<<<<< HEAD
 	prt_row = 20;
 	move(20, 0);
-=======
 
-	move(13, 0);
->>>>>>> a5196579681935b90650b859d081495437489923
-	add("  ######    ######     #####     ######     ########            ");
-        add(" ##    ##  ##        ###   ###   ##    ##   ##                  ");
-        add(" ##       ##        ##       ##  ##    ##   ##            ##    ");
-        add("  #####   ##        ##       ##  ######     ########            ");
-        add("       ## ##        ##       ##  ##    ##   ##            ##    ");
-        add(" ##    ##  ##        ###   ###   ##     ##  ##                  ");
-        add("  ######    ######     #####     ##      ## ########            ");
+	add("    ######    ######     #####     ######     ########            ");
+        add("   ##    ##  ##        ###   ###   ##    ##   ##                  ");
+        add("   ##       ##        ##       ##  ##    ##   ##            ##    ");
+        add("    #####   ##        ##       ##  ######     ########            ");
+        add("         ## ##        ##       ##  ##    ##   ##            ##    ");
+        add("   ##    ##  ##        ###   ###   ##     ##  ##                  ");
+        add("    ######    ######     #####     ##      ## ########            ");
 
 	int score_len = 0;
 	int score_num = score;	
@@ -271,10 +260,9 @@ void showGameOverView(int score) {
 		score_num /= 10;
 	}
 	
-	for(int i = 0; i < score_len; i++) {
-		showScore(score % 10, 64 + score_col); 
+	for(int i = score_len - 1; i >= 0; i--) {
+		showScore(score % 10, 65 +  i * score_col); 
 		score /= 10;
-		score_col *= 2;
 	}	
 
 	refresh();
@@ -291,7 +279,8 @@ void showScore(int score, int col) {
 			mvprintw(24, col, " ##      ## ");
 			mvprintw(25, col, "  ##    ##  ");
 			mvprintw(26, col, "    ####    ");
-									 
+			break;						 
+			
 		case 1:
 			mvprintw(20, col, "     ###    ");
                         mvprintw(21, col, "    ####    ");
@@ -300,6 +289,7 @@ void showScore(int score, int col) {
 	                mvprintw(24, col, "      ##    ");
 	                mvprintw(25, col, "      ##    ");
 			mvprintw(26, col, "  ######### ");
+			break;
 
 		case 2:
 			mvprintw(20, col, "   ######   ");
@@ -309,7 +299,8 @@ void showScore(int score, int col) {
 			mvprintw(24, col, "    ###     ");
 			mvprintw(25, col, "  ###       ");
 			mvprintw(26, col, " ########## ");
-				
+			break;
+
 		case 3:
 			mvprintw(20, col, "   ######   ");
 			mvprintw(21, col, " ###    ### ");
@@ -318,7 +309,8 @@ void showScore(int score, int col) {
 			mvprintw(24, col, "        ### ");
 			mvprintw(25, col, " ###    ### ");
 			mvprintw(26, col, "   ######   ");
-				
+			break;
+
 		case 4:               
                         mvprintw(20, col, "     ####   ");
                         mvprintw(21, col, "    ## ##   ");
@@ -327,7 +319,8 @@ void showScore(int score, int col) {
                         mvprintw(24, col, " ########## ");
                         mvprintw(25, col, "       ##   ");
                         mvprintw(26, col, "       ##   ");
-										
+			break;
+
 		case 5:		
                         mvprintw(20, col, " ########## ");
                         mvprintw(21, col, " ##         ");
@@ -336,6 +329,7 @@ void showScore(int score, int col) {
                         mvprintw(24, col, "         ## ");
                         mvprintw(25, col, "         ## ");
                         mvprintw(26, col, " #########  ");
+			break;
 
                 case 6:
                         mvprintw(20, col, "  ########  ");
@@ -345,9 +339,9 @@ void showScore(int score, int col) {
                         mvprintw(24, col, " ##      ## ");
                         mvprintw(25, col, " ##      ## ");
                         mvprintw(26, col, "  ########  ");
+			break;
 
                 case 7:
-<<<<<<< HEAD
                         mvprintw(20, col, " ########## ");
                         mvprintw(21, col, "        ##  ");
                         mvprintw(22, col, "       ##   ");
@@ -355,6 +349,7 @@ void showScore(int score, int col) {
                         mvprintw(24, col, "     ##     ");
                         mvprintw(25, col, "    ##      ");
                         mvprintw(26, col, "   ##       ");
+			break;
 
                 case 8:
                         mvprintw(20, col, "  ########  ");
@@ -364,7 +359,7 @@ void showScore(int score, int col) {
                         mvprintw(24, col, " ##      ## ");
                         mvprintw(25, col, " ##      ## ");
                         mvprintw(26, col, "  ########  ");
-
+			break;
                 case 9:
                         mvprintw(20, col, "  #######  ");
                         mvprintw(21, col, " ##     ## ");
@@ -373,6 +368,7 @@ void showScore(int score, int col) {
                         mvprintw(24, col, "      ##   ");
                         mvprintw(25, col, "     ##    ");
                         mvprintw(26, col, "    ##     ");
-				
-		}   
+			break;	
+		}   	
 }
+
