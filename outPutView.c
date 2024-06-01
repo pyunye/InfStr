@@ -4,6 +4,9 @@
 #include <unistd.h>
 #include <curses.h>
 #include "textmanager.h"
+#include "stairs.h"
+#include "InfStair.h"
+#include "gameOver.h"
 
 #define BLANK " "
 #define ARROW ">"
