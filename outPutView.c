@@ -27,10 +27,9 @@ void add(char * message) {
 	prt_row++;
 	move(prt_row, 0);
 }
-
 void showMainView() {
 	clear();
-	int prt_row = 0;
+	prt_row = 0;
 	move(0, 0);
 	add("                                                               ");
     	add("     _____  _   _ ______  _____  _   _  _____  _____  _____    ");
@@ -57,13 +56,14 @@ void showMainView() {
     	add("							            ");
     	add("							            ");
 	
+	setSelectionCursor(0);
 	refresh();
 }
 
 void setSelectionCursor(int select) {
+	
 	static int old_select = 0;
 
-	printw("output view = %d", select);
 	switch (old_select) {
 		case 0:
 			move(17, 23);
@@ -101,22 +101,20 @@ void setSelectionCursor(int select) {
 }
 
 void printHelp(char text[]){
-	initscr();
-	noecho();
 	clear();
 	addstr(text);
 	addstr(BACKKEY);
 	refresh();
 }
 
-void printRank(Players unit){
+void printRank(Players* unit){
 	initscr();
 	noecho();
 	clear();
 	char playersInfo[256];
-	int i;
-	while(i < unit.size && i < 10){
-		sprintf(playersInfo, " Rank %d : %d(%s)\n", i+1, unit.members[i].score, unit.members[i].username);
+	int i=0;
+	while(i < unit->size && i < 10){
+		sprintf(playersInfo, " Rank %d : %d(%s)\n", i+1, unit->members[i].score, unit->members[i].username);
 		addstr(playersInfo);
 		i++;
 	}
@@ -126,24 +124,18 @@ void printRank(Players unit){
 }
 
 void showPlayingView() {
-	
-//	initscr();
-//	crmode();
-//	noecho();
+	clear();
+	initscr();
+	crmode();
+	noecho();
 
-//	move(1, 60);
-//	addstr(score);
+	move(1, 60);
+	int* stairs = getStairsDir();
 
-//	int stairs[MAX_QUEUE_SIZE];
-//	stairs = getStairsDir();
+	printStairs(stairs);
+	move(1, 60);
+	refresh();
 
-//	while(1) {
-//		printStairs(stairs);
-//		clearStairs(stairs);
-//		move(1, 60);
-//		addstr(score);
-//		refresh();
-//	}	
 }
 
 void printStairs(int stairs[]) {
@@ -173,19 +165,53 @@ void clearStairs(int stairs[]) {
 		}
 	}
 }
+void printCountDown(int time) {
+	clear();
+	switch (time) {
+		case 0:
+			mvprintw(20, col, "    ####    ");
+			mvprintw(21, col, "  ##    ##  ");
+			mvprintw(22, col, " ##      ## ");
+			mvprintw(23, col, " ##      ## ");
+			mvprintw(24, col, " ##      ## ");
+			mvprintw(25, col, "  ##    ##  ");
+			mvprintw(26, col, "    ####    ");
+			break;
 
+		case 1:
+			mvprintw(20, col, "     ###    ");
+			mvprintw(21, col, "    ####    ");
+			mvprintw(22, col, "  ##  ##    ");
+			mvprintw(23, col, "      ##    ");
+			mvprintw(24, col, "      ##    ");
+			mvprintw(25, col, "      ##    ");
+			mvprintw(26, col, "  ######### ");
+			break;
+
+		case 2:
+			mvprintw(20, col, "   ######   ");
+			mvprintw(21, col, "  ##    ##  ");
+			mvprintw(22, col, "       ###  ");
+			mvprintw(23, col, "      ###   ");
+			mvprintw(24, col, "    ###     ");
+			mvprintw(25, col, "  ###       ");
+			mvprintw(26, col, " ########## ");
+			break;
+	}
+	refresh();
+}
 void showGameOverView(int score) {
 	initscr();
-        crmode();
-        noecho();
+    crmode();
+    noecho();
 	clear();
 	
 	move(5, 0);
 	prt_row = 5;
 
 	add("         ######      ####    ##       ## ########              #####    ##       ##  #######  #######        ###       "); 
-        add("       ##     ##    ##  ##   ###    #### ##                  ###   ###  ##       ##  ##       ##    ##       ###       ");
-        add("      ##           ##    ##  ## ## ## ## ##                 ##       ## ##       ##  ##       ##    ##       ###       ");
+    add("       ##     ##    ##  ##   ###    #### ##                  ###   ###  ##       ##  ##       ##    ##       ###       ");
+	add("      ##           ##    ##  ## ## ## ## ##                 ##       ## ##       ##  ##       ##    ##       ###       ");
         add("      ##    ##### ########## ##  ###  ## ########           ##       ##  ##     ##   #######  #######        ###       ");
         add("      ##      ##  ##      ## ##       ## ##                 ##       ##   ##   ##    ##       ##    ##       ###       ");
         add("       ##     ##  ##      ## ##       ## ##                  ###   ###     ## ##     ##       ##     ##                ");

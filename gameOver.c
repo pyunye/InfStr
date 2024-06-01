@@ -19,7 +19,6 @@ char changeUpperCase(char key) {
 }
 char* inputUserName() {
     clear();
-    cbreak();              // 라인 버퍼링을 비활성화하고, 즉시 입력을 읽을 수 있게 함
     curs_set(1);           // 커서를 보이게 설정
 
     // 입력된 문자열을 저장할 버퍼
@@ -53,7 +52,10 @@ char* inputUserName() {
         ch = wgetch(win);
 
         // ENTER 키 처리
-        if (ch == ENTER) return buffer;
+        if (ch == ENTER) {
+            curs_set(0);
+            return buffer;
+        }
 
         // 백스페이스 키 처리
         if (ch == BACKSPACE_KEY) {

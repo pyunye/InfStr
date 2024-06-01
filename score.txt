@@ -1,0 +1,5 @@
+FFD 1
+SSS 0
+SAW 1
+SIB 1
+SSS 1
