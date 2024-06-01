@@ -60,38 +60,45 @@ void showMainView() {
 	refresh();
 }
 
-void setSelectionCursor() {
-	static int old_
-	int key;
-	int change = 0;
-	int select = 0;
+void setSelectionCursor(int select) {
+	clear();
+	static int old_select = 0;
 
-	while (1)
-	{
-		switch (key) {
-		case KEY_UP:
-			change = (select == 0) ? 3 : -1;
-			row = pre_row + change;
-			select = row - 17;
-			move(pre_row, col);
-			addstr(BLANK);
-			move(row, col);
-			addstr(ARROW);
-			pre_row = row;
+	printw("output view = %d", select);
+	switch (old_select) {
+		case 0:
+			move(17, 23);
+			break;
+		case 1:
+			move(18, 23);
+			break;
+		case 2:
+			move(19, 23);
+			break;
+		case 3:
+			move(20, 23);
 			break;
 
-		case KEY_DOWN:
-			change = (select == 3) ? -3 : 1;
-			row = pre_row + change;
-			select = row - 17;
-			move(pre_row, col);
-			addstr(BLANK);
-			move(row, col);
-			addstr(ARROW);
-			pre_row = row;
-			break;
-		}
 	}
+	addstr("ssssssssssssss");
+
+	old_selection = select;
+	switch (select) {
+		case 0:
+			move(17, 23);
+			break;
+		case 1:
+			move(18, 23);
+			break;
+		case 2:
+			move(19, 23);
+			break;
+		case 3:
+			move(20, 23);
+			break;
+	}
+	addstr("ssssssssssssss");
+	refresh();
 }
 
 void printHelp(char text[]){

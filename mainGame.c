@@ -15,11 +15,11 @@ void enterMode(int select){
 		case START: //invoke startGame() in InfStair.c
 			startGame();
 			break;
-		case RANKING:
-			printw("%d RANKING selected", select);
+		case HELP:
+			printw("%d HELP selected", select);
 			break;
-		case HELP: //invoke help() in help.c
-			printw("%d HELP selected ", select);
+		case RANKING: //invoke help() in help.c
+			printw("%d RANKING selected ", select);
 			break;
 		case QUIT: //game quit
 			endwin();
@@ -45,10 +45,11 @@ int main(){
 		switch (key) {
 		case KEY_UP:
 			select = (select - 1 + 4) % 4;
+			setSelectionCursor(select);
 			break;
 		case KEY_DOWN:
 			select = (select + 1) % 4;
-
+			setSelectionCursor(select);
 			break;
 		case ENTER:
 			enterMode(select);

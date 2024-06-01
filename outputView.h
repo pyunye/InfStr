@@ -1,7 +1,7 @@
 #include "textmanager.h"
 void add(char* message);
 void showMainView();
-void setSelectionCursor();
+void setSelectionCursor(int select);
 void printHelp(char text[]);
 void printRank(Players unit);
 void showPlayingView();
