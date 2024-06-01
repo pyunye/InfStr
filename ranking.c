@@ -4,9 +4,9 @@
 #include <curses.h>
 
 void rank(){
-	Player *players = scoreOutput();
+	Players unit = scoreOutput();
 	while(getKey() != 'b'){
-		printRank(players);
+		printRank(unit);
 	}
 }
 
