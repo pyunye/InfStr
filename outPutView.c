@@ -199,9 +199,6 @@ void printCountDown(int time) {
 	refresh();
 }
 void showGameOverView(int score) {
-	initscr();
-    crmode();
-    noecho();
 	clear();
 	
 	move(5, 0);
@@ -229,16 +226,18 @@ void showGameOverView(int score) {
 	int score_len = 0;
 	int score_num = score;	
 	int score_col = 12;
-
-	while (score_num != 0) {
-		score_len++;
-		score_num /= 10;
+	if(score == 0)
+		showScore(0, 65);
+	else{
+		while (score_num != 0) {
+			score_len++;
+			score_num /= 10;
+		}
+		for(int i = score_len - 1; i >= 0; i--) {
+			showScore(score % 10, 65 +  i * score_col); 
+			score /= 10;
+		}	
 	}
-	
-	for(int i = score_len - 1; i >= 0; i--) {
-		showScore(score % 10, 65 +  i * score_col); 
-		score /= 10;
-	}	
 	refresh();
 }
 
