@@ -9,3 +9,5 @@ void add(char*);
 void showMainView();
 void setSelectionCursor();
 void printStairs(int*);
+void setTimeOverGage(int);
+void showGameOverView(int);

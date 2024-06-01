@@ -346,3 +346,13 @@ void showScore(int score, int col) {
 		}   	
 }
 
+
+void setTimeOverGage(int currentTime) {
+       	mvprintw(2, 12, "|                                                                                |");
+	mvprintw(3, 12, "|                                                                                |");
+	for(int i = 1; i < currentTime; i++) {
+		mvprintw(2, 5 + 9*i ,"#");
+	}
+	refresh();
+}
+

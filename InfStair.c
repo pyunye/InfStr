@@ -44,12 +44,14 @@ void handleFailKey() {
 	scoreInput(userName,score);
 	free(userName);
 	clearQueue();
+	showGameOverView(score);
 	//*to do : invoke showGameOverView(score) in outputView.c and show GameOverView*
 }
 void tickEvent() {
+	showPlayingView();
+	setTimeOverGage(currentTime);
 	currentTime--;
 	//*to do : invoke setTimeOverGage(currentTime) in outputView.c and show GameOverView
-	showPlayingView();
 	if (currentTime <= 0) {
 		handleFailKey();
 	}
@@ -74,6 +76,7 @@ void countDown() {
 		printCountDown(time);
 		sleep(1);
 	}
+
 }
 void startGame(){
 	void tickEvent();
@@ -88,13 +91,13 @@ void startGame(){
 	//*todo : invoke showPlayingView() in outputView.c func print playing view
 	showPlayingView();
 
-
 	if (setTicker(1000) == -1) {
 		perror("[InfStair] fail setTicker");
 	}
 
 	int key;
 	while (!gameOver) {
+		setTimeOverGage(currentTime);
 		key = getch();
 		if (key == KEY_LEFT || key == KEY_RIGHT) {
 			CheckKeyDirection(key);
