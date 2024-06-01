@@ -5,7 +5,7 @@
 #include<sys/time.h>
 #include "stairs.h"
 #include "InfStair.h"
-#include "textmanager.h"
+#include "outPutView.h"
 #include "gameOver.h"
 
 #define SUCESS 1
@@ -49,9 +49,7 @@ void handleFailKey() {
 void tickEvent() {
 	currentTime--;
 	//*to do : invoke setTimeOverGage(currentTime) in outputView.c and show GameOverView
-	clear();
-	printw("%d",currentTime);
-	refresh();
+	showPlayingView();
 	if (currentTime <= 0) {
 		handleFailKey();
 	}
@@ -76,8 +74,7 @@ void countDown() {
 	int time = 3;
 	while (time--) {
 		//*to do :invoke showCountDown(time) in outputView.c func print 3,2,1 count down view*
-		printw("wait");
-		refresh();
+		printCountDown(time);
 		sleep(1);
 	}
 }
@@ -92,6 +89,8 @@ void startGame(){
 	countDown();
 
 	//*todo : invoke showPlayingView() in outputView.c func print playing view
+	showPlayingView();
+
 
 	if (setTicker(1000) == -1) {
 		perror("[InfStair] fail setTicker");
