@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <curses.h>
-#include "outputView.h"
+#include "outPutView.h"
 void rank(){
 	Players unit = scoreOutput();
 	while(getch() != 'b'){
