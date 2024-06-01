@@ -264,8 +264,9 @@ void showGameOverView(int score) {
 		showScore(score % 10, 65 +  i * score_col); 
 		score /= 10;
 	}	
-
 	refresh();
+	char username[MAX_SIZE] = inputUserName();
+	scoreInput(username, score);
 }
 
 void showScore(int score, int col) {
