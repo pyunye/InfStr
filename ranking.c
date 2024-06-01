@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "textmanager.h"
 #include <curses.h>
-
+#include "outputView.h"
 void rank(){
-	Player *players = scoreOutput();
-	while(getKey() != 'b'){
-		printRank(players);
+	Players unit = scoreOutput();
+	while(getch() != 'b'){
+		printRank(unit);
 	}
 }
 

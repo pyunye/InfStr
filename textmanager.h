@@ -11,5 +11,5 @@ typedef struct {
 
 int compare(const void* , const void*);
 void scoreInput(char*, int);
-Player *scoreOutput();
+Players scoreOutput();
 
