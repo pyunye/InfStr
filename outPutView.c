@@ -61,7 +61,6 @@ void showMainView() {
 }
 
 void setSelectionCursor(int select) {
-	clear();
 	static int old_select = 0;
 
 	printw("output view = %d", select);
@@ -80,7 +79,7 @@ void setSelectionCursor(int select) {
 			break;
 
 	}
-	addstr("ssssssssssssss");
+	addstr(BLANK);
 
 	old_selection = select;
 	switch (select) {
@@ -97,7 +96,7 @@ void setSelectionCursor(int select) {
 			move(20, 23);
 			break;
 	}
-	addstr("ssssssssssssss");
+	addstr(ARROW);
 	refresh();
 }
 
