@@ -29,8 +29,9 @@ void add(char * message) {
 }
 
 void showMainView() {
+	
 	clear();
-	int prt_row = 0;
+        prt_row = 0;
 	move(0, 0);
 	add("                                                               ");
     	add("     _____  _   _ ______  _____  _   _  _____  _____  _____    ");
@@ -62,8 +63,7 @@ void showMainView() {
 
 void setSelectionCursor(int select) {
 	static int old_select = 0;
-
-	printw("output view = %d", select);
+	
 	switch (old_select) {
 		case 0:
 			move(17, 23);
@@ -127,23 +127,22 @@ void printRank(Players unit){
 
 void showPlayingView() {
 	
-//	initscr();
-//	crmode();
-//	noecho();
+	initscr();
+	crmode();
+	noecho();
+	move(1, 60);
+	addstr(score);
 
-//	move(1, 60);
-//	addstr(score);
+	int stairs[MAX_QUEUE_SIZE];
+	stairs = getStairsDir();
 
-//	int stairs[MAX_QUEUE_SIZE];
-//	stairs = getStairsDir();
-
-//	while(1) {
-//		printStairs(stairs);
-//		clearStairs(stairs);
-//		move(1, 60);
-//		addstr(score);
-//		refresh();
-//	}	
+	while(1) {
+		printStairs(stairs);
+		clearStairs(stairs);
+		move(1, 60);
+		addstr(score);
+		refresh();
+		}	
 }
 
 void printStairs(int stairs[]) {
@@ -322,3 +321,44 @@ void showScore(int score, int col) {
 		}   	
 }
 
+void showCountDown(int time) {
+	switch(time) {
+		case 1:
+                        mvprintw(18, 60, "      ###   ");
+                        mvprintw(19, 60, "     ####   ");
+                        mvprintw(20, 60, "   ##  ##   ");
+                        mvprintw(21, 60, "       ##   ");
+                        mvprintw(22, 60, "       ##   ");
+                        mvprintw(23, 60, "       ##   ");
+                        mvprintw(24, 60, "  ######### ");
+                        break;
+
+		case 2:
+                        mvprintw(18, 60, "   ######   ");
+                        mvprintw(19, 60, "  ##    ##  ");
+                        mvprintw(20, 60, "       ###  ");
+                        mvprintw(21, 60, "      ###   ");
+                        mvprintw(22, 60, "    ###     ");
+                        mvprintw(23, 60, "  ###       ");
+                        mvprintw(24, 60, " ########## ");
+                        break;
+
+		case 3:			                       
+		       	mvprintw(18, 60, "   ######   ");
+                        mvprintw(19, 60, " ###    ### ");
+                        mvprintw(20, 60, "        ### ");
+                        mvprintw(21, 60, "     ####   ");
+                        mvprintw(22, 60, "        ### ");
+                        mvprintw(23, 60, " ###    ### ");
+                        mvprintw(24, 60, "   ######   ");
+			break;
+	}
+}
+
+void setTimeOverGage(int currentTime) {
+       	mvprintw(2, 12, "|                                                                                |");
+	mvprintw(3, 12, "|                                                                                |");
+	for(int i = 0; i < currentTime; i++) {
+		mvprintw(2, 13 + i * 8, "########");
+	}
+}
