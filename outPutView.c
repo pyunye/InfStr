@@ -11,6 +11,7 @@
 #define STAIR "[###]"
 #define ENTER 10
 #define BACKKEY "> back key 'b'\n\n"
+#define NEXTSTEP "<< press 'b' >>"
 
 int row = 17;
 int col = 23;
@@ -222,7 +223,7 @@ void showGameOverView(int score) {
 			score /= 10;
 		}	
 	}
-	mvprintw(30, 50, BACKKEY);
+	mvprintw(30, 50, NEXTSTEP);
 	refresh();
 }
 
