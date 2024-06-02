@@ -111,7 +111,7 @@ void showPlayingView(int score) {
 	clear();
 	move(6, 65);
 	printStairs(getStairsDir());
-	mvprintw(4, 55, "score : %d",score);
+	mvprintw(4, 60, "score : %d",score);
 	refresh();
 }
 void setTimeOverGage(int currentTime) {
