@@ -73,7 +73,7 @@ char* inputUserName() {
         }
 
         // 버퍼에 저장된 문자열을 화면에 출력
-        mvwprintw(win, 5, 12, "INPUT : %s", buffer);
+        mvwprintw(win, 5, 12, "UserName : %s", buffer);
         wclrtoeol(win);  // 현재 라인에서 커서 이후의 모든 문자 지우기
         wrefresh(win);
     }
