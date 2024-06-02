@@ -11,6 +11,7 @@
 #define SUCESS 1
 #define FAIL 0
 #define GAME_OVER_TIME 10
+#define INIT_TICKTIME 1000
 
 int setTicker(int n_msecs);
 void handleFailKey();
@@ -21,6 +22,7 @@ void countDown();
 int score;
 int gameOver;
 int currentTime;
+int tickTime;
 
 int setTicker(int n_msecs) {
 	struct itimerval new_timeset;
@@ -40,13 +42,16 @@ void handleFailKey() {
 	//this func handles GameOver case
 	signal(SIGALRM, SIG_IGN);
 	gameOver = 1;// gameOver
+
+	do {
+		//show gameover Message and Total Score
+		showGameOverView(score);
+	} while (getch() != 'b');
+
 	char* userName = inputUserName();
 	scoreInput(userName,score);
 	free(userName);
 	clearQueue();
-	do{	
-		showGameOverView(score);
-	}while(getch() != 'b');
 }
 void tickEvent() {
 	setTimeOverGage(currentTime);
@@ -57,7 +62,7 @@ void tickEvent() {
 }
 void CheckKeyDirection(int key) {
 	if (isCorrectDirection(key)) {
-		//if isCorrectKey(key) is true in stairs.c
+		//if plyer input correct direction key, isCorrectKey(key) is true in stairs.c
 		score++;
 		currentTime = GAME_OVER_TIME;
 		createNewStair();
@@ -65,32 +70,35 @@ void CheckKeyDirection(int key) {
 		setTimeOverGage(currentTime);
 	}
 	else {
-		//if isCorrectKey(key) is false in stairs.c
+		//if plyer input wrong direction key, isCorrectKey(key) is false in stairs.c
 		handleFailKey();
 	}
 }
 void countDown() {
 	int time = 3;
 	while (time--) {
-		//*to do :invoke showCountDown(time) in outputView.c func print 3,2,1 count down view*
 		printCountDown(time);
 		sleep(1);
 	}
 
 }
+void initVariable() {
+	score = 0;
+	gameOver = 0;
+	tickTime = INIT_TICKTIME;
+	currentTime = GAME_OVER_TIME;
+}
 void startGame(){
 	void tickEvent();
 	init();//invoke init() in stairs.c
-	score = 0;
-	gameOver = 0;
-	currentTime = GAME_OVER_TIME;
+	initVariable();
 	signal(SIGALRM, tickEvent);
 
 	//three count down before game start
 	countDown();
-
 	showPlayingView();
 	setTimeOverGage(currentTime);
+
 	if (setTicker(1000) == -1) {
 		perror("[InfStair] fail setTicker");
 	}
