@@ -3,7 +3,6 @@
 #include<unistd.h>
 #include<signal.h>
 #include<sys/time.h>
-#include <ncurses.h>
 #include "stairs.h"
 #include "InfStair.h"
 #include "outPutView.h"
@@ -46,7 +45,6 @@ void handleFailKey() {
 	signal(SIGALRM, SIG_IGN);
 	gameOver = 1;// gameOver
 	showGameOverView(score);
-	while (getch() != 'b') ;
 	char* userName = inputUserName();
 	clear();
 	scoreInput(userName,score);
@@ -103,10 +101,6 @@ void startGame(){
 	initVariable();
 	signal(SIGALRM, tickEvent);
 
-
-
-  
-
     //three count down before game start
     countDown();
     showPlayingView(score);
@@ -119,13 +113,10 @@ void startGame(){
     int key;
     while (!gameOver) {
         key = getkeyboard();
-        if (key != ERR) { // 입력이 있는 경우에만 처리
-            if (key == KEY_LEFT || key == KEY_RIGHT) {
-                CheckKeyDirection(key);
-            }
+        if (key == KEY_LEFT || key == KEY_RIGHT) {
+            CheckKeyDirection(key);
         }
     }
-    endwin();
 }
 
 int getkeyboard(){
