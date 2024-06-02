@@ -43,7 +43,7 @@ char* inputUserName() {
     box(win, 0, 0);
     mvwprintw(win, 1, 5, "Please Input Three Alphabet");
     mvwprintw(win, 2, 10, "Submission is Enter");
-    mvwprintw(win, 5, 12, "INPUT : ");
+    mvwprintw(win, 5, 12, "UserName : ");
     wrefresh(win);
 
     int ch;
