@@ -12,6 +12,7 @@
 #define ENTER 10
 #define BACKKEY "> back key 'b'\n\n"
 #define NEXTSTEP "<< press 'b' >>"
+#define GAME_OVER_VIEW_DELAY 4
 
 int row = 17;
 int col = 23;
@@ -215,8 +216,8 @@ void showGameOverView(int score) {
 			score /= 10;
 		}	
 	}
-	mvprintw(30, 50, NEXTSTEP);
 	refresh();
+	sleep(GAME_OVER_VIEW_DELAY);
 }
 void showScore(int score, int col) {
 
