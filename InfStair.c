@@ -21,6 +21,7 @@ void handleFailKey();
 void tickEvent();
 void CheckKeyDirection(int key);
 void countDown();
+int getkeyboard();
 
 int score;
 int gameOver;
@@ -104,7 +105,7 @@ void startGame(){
 
 
 
-    timeout(0); // non-blocking getch()
+  
 
     //three count down before game start
     countDown();
@@ -117,7 +118,7 @@ void startGame(){
 
     int key;
     while (!gameOver) {
-        key = getch();
+        key = getkeyboard();
         if (key != ERR) { // 입력이 있는 경우에만 처리
             if (key == KEY_LEFT || key == KEY_RIGHT) {
                 CheckKeyDirection(key);
@@ -127,5 +128,11 @@ void startGame(){
     endwin();
 }
 
+int getkeyboard(){
+	timeout(0);
+	int key = getch();
+	timeout(-1);
+	return key;
+}
 
 
