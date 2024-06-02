@@ -132,7 +132,7 @@ void printStairs(int stairs[]) {
 	int stair_row = player_row;
 	int stair_col = player_col;
 
-	move(player_row - 1, player_col + 1);
+	move(player_row - 1, player_col + 2);
 	addstr("*");
 	for (int i = 0; i < MAX_QUEUE_SIZE; i++) {
 		move(stair_row, stair_col);
