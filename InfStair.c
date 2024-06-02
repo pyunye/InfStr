@@ -37,19 +37,20 @@ int setTicker(int n_msecs) {
 	return setitimer(ITIMER_REAL, &new_timeset, NULL);
 }
 void handleFailKey() {
-	//this func handle GameOver case
+	//this func handles GameOver case
 	signal(SIGALRM, SIG_IGN);
 	gameOver = 1;// gameOver
 	char* userName = inputUserName();
 	scoreInput(userName,score);
 	free(userName);
 	clearQueue();
-	//*to do : invoke showGameOverView(score) in outputView.c and show GameOverView*
+	do{	
+		showGameOverView(score);
+	}while(getch() != 'b');
 }
 void tickEvent() {
+	setTimeOverGage(currentTime);
 	currentTime--;
-	//*to do : invoke setTimeOverGage(currentTime) in outputView.c and show GameOverView
-	showPlayingView();
 	if (currentTime <= 0) {
 		handleFailKey();
 	}
@@ -60,7 +61,8 @@ void CheckKeyDirection(int key) {
 		score++;
 		currentTime = GAME_OVER_TIME;
 		createNewStair();
-		//*to do : invoke showPlayingView() in outputView.c func print playing view
+		showPlayingView();
+		setTimeOverGage(currentTime);
 	}
 	else {
 		//if isCorrectKey(key) is false in stairs.c
@@ -74,6 +76,7 @@ void countDown() {
 		printCountDown(time);
 		sleep(1);
 	}
+
 }
 void startGame(){
 	void tickEvent();
@@ -82,13 +85,12 @@ void startGame(){
 	gameOver = 0;
 	currentTime = GAME_OVER_TIME;
 	signal(SIGALRM, tickEvent);
+
 	//three count down before game start
 	countDown();
 
-	//*todo : invoke showPlayingView() in outputView.c func print playing view
 	showPlayingView();
-
-
+	setTimeOverGage(currentTime);
 	if (setTicker(1000) == -1) {
 		perror("[InfStair] fail setTicker");
 	}

@@ -167,41 +167,38 @@ void printCountDown(int time) {
 	clear();
 	switch (time) {
 		case 0:
-			mvprintw(20, col, "     ###    ");
-			mvprintw(21, col, "    ####    ");
-			mvprintw(22, col, "  ##  ##    ");
-			mvprintw(23, col, "      ##    ");
-			mvprintw(24, col, "      ##    ");
-			mvprintw(25, col, "      ##    ");
-			mvprintw(26, col, "  ######### ");
+			mvprintw(20, 50, "     ###    ");
+			mvprintw(21, 50, "    ####    ");
+			mvprintw(22, 50, "  ##  ##    ");
+			mvprintw(23, 50, "      ##    ");
+			mvprintw(24, 50, "      ##    ");
+			mvprintw(25, 50, "      ##    ");
+			mvprintw(26, 50, "  ######### ");
 			break;
 
 		case 1:
-			mvprintw(20, col, "   ######   ");
-			mvprintw(21, col, "  ##    ##  ");
-			mvprintw(22, col, "       ###  ");
-			mvprintw(23, col, "      ###   ");
-			mvprintw(24, col, "    ###     ");
-			mvprintw(25, col, "  ###       ");
-			mvprintw(26, col, " ########## ");
+			mvprintw(20, 50, "   ######   ");
+			mvprintw(21, 50, "  ##    ##  ");
+			mvprintw(22, 50, "       ###  ");
+			mvprintw(23, 50, "      ###   ");
+			mvprintw(24, 50, "    ###     ");
+			mvprintw(25, 50, "  ###       ");
+			mvprintw(26, 50, " ########## ");
 			break;
 
 		case 2:
-			mvprintw(20, col, "   ######   ");
-			mvprintw(21, col, " ###    ### ");
-			mvprintw(22, col, "        ### ");
-			mvprintw(23, col, "     ####   ");
-			mvprintw(24, col, "        ### ");
-			mvprintw(25, col, " ###    ### ");
-			mvprintw(26, col, "   ######   ");
+			mvprintw(20, 50, "   ######   ");
+			mvprintw(21, 50, " ###    ### ");
+			mvprintw(22, 50, "        ### ");
+			mvprintw(23, 50, "     ####   ");
+			mvprintw(24, 50, "        ### ");
+			mvprintw(25, 50, " ###    ### ");
+			mvprintw(26, 50, "   ######   ");
 			break;
 	}
 	refresh();
 }
 void showGameOverView(int score) {
-	initscr();
-    crmode();
-    noecho();
 	clear();
 	
 	move(5, 0);
@@ -218,27 +215,30 @@ void showGameOverView(int score) {
 	prt_row = 20;
 	move(20, 0);
 
-	add("    ######    ######     #####     ######     ########            ");
-        add("   ##    ##  ##        ###   ###   ##    ##   ##                  ");
-        add("   ##       ##        ##       ##  ##    ##   ##            ##    ");
-        add("    #####   ##        ##       ##  ######     ########            ");
-        add("         ## ##        ##       ##  ##    ##   ##            ##    ");
-        add("   ##    ##  ##        ###   ###   ##     ##  ##                  ");
-        add("    ######    ######     #####     ##      ## ########            ");
+	add("         ######    ######     #####     ######     ########            ");
+        add("        ##    ##  ##        ###   ###   ##    ##   ##                  ");
+        add("        ##       ##        ##       ##  ##    ##   ##            ##    ");
+        add("         #####   ##        ##       ##  ######     ########            ");
+        add("              ## ##        ##       ##  ##    ##   ##            ##    ");
+        add("        ##    ##  ##        ###   ###   ##     ##  ##                  ");
+        add("         ######    ######     #####     ##      ## ########            ");
 
 	int score_len = 0;
 	int score_num = score;	
 	int score_col = 12;
-
-	while (score_num != 0) {
-		score_len++;
-		score_num /= 10;
+	if(score == 0)
+		showScore(0, 70);
+	else{
+		while (score_num != 0) {
+			score_len++;
+			score_num /= 10;
+		}
+		for(int i = score_len - 1; i >= 0; i--) {
+			showScore(score % 10, 70 +  i * score_col); 
+			score /= 10;
+		}	
 	}
-	
-	for(int i = score_len - 1; i >= 0; i--) {
-		showScore(score % 10, 65 +  i * score_col); 
-		score /= 10;
-	}	
+	mvprintw(30, 50, BACKKEY);
 	refresh();
 }
 
@@ -344,5 +344,16 @@ void showScore(int score, int col) {
                         mvprintw(26, col, "    ##     ");
 			break;	
 		}   	
+}
+
+
+void setTimeOverGage(int currentTime) {
+       	mvprintw(2, 12, "|                                                                        |");
+	mvprintw(3, 12, "|                                                                        |");
+	for(int i = 1; i < currentTime; i++) {
+		mvprintw(2, 5 + 8*i, "########");
+		mvprintw(3, 5 + 8*i, "########");
+	}
+	refresh();
 }
 
