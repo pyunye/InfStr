@@ -12,6 +12,7 @@
 #define FAIL 0
 #define GAME_OVER_TIME 10
 #define INIT_TICKTIME 1000
+#define TICK_TIME_BOUND 50
 
 int setTicker(int n_msecs);
 void handleFailKey();
@@ -22,7 +23,6 @@ void countDown();
 int score;
 int gameOver;
 int currentTime;
-int tickTime;
 
 int setTicker(int n_msecs) {
 	struct itimerval new_timeset;
@@ -60,14 +60,23 @@ void tickEvent() {
 		handleFailKey();
 	}
 }
+void changeGameDifficult() {
+	int changeTickTime = INIT_TICKTIME - (score / 10) * 15;
+	changeTickTime = changeTickTime < TICK_TIME_BOUND ? TICK_TIME_BOUND : changeTickTime;
+	setTicker(changeTickTime);
+}
+void handleSuccessKey() {
+	score++;
+	currentTime = GAME_OVER_TIME;
+	createNewStair();
+	showPlayingView(score);
+	setTimeOverGage(currentTime);
+	changeGameDifficult();
+}
 void CheckKeyDirection(int key) {
 	if (isCorrectDirection(key)) {
 		//if plyer input correct direction key, isCorrectKey(key) is true in stairs.c
-		score++;
-		currentTime = GAME_OVER_TIME;
-		createNewStair();
-		showPlayingView();
-		setTimeOverGage(currentTime);
+		handleSuccessKey();
 	}
 	else {
 		//if plyer input wrong direction key, isCorrectKey(key) is false in stairs.c
@@ -85,7 +94,6 @@ void countDown() {
 void initVariable() {
 	score = 0;
 	gameOver = 0;
-	tickTime = INIT_TICKTIME;
 	currentTime = GAME_OVER_TIME;
 }
 void startGame(){
@@ -96,10 +104,10 @@ void startGame(){
 
 	//three count down before game start
 	countDown();
-	showPlayingView();
+	showPlayingView(score);
 	setTimeOverGage(currentTime);
 
-	if (setTicker(1000) == -1) {
+	if (setTicker(INIT_TICKTIME) == -1) {
 		perror("[InfStair] fail setTicker");
 	}
 

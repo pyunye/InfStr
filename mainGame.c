@@ -37,7 +37,6 @@ int main(){
 	clear();
 	curs_set(0);
 
-	//invoke showMainView() in outPutView.c method print mainView with title and three option(start, help, quit);
 	showMainView();
 	
 	int key;
