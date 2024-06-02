@@ -3,12 +3,14 @@
 #include<unistd.h>
 #include<signal.h>
 #include<sys/time.h>
+#include <ncurses.h>
 #include "stairs.h"
 #include "InfStair.h"
 #include "outPutView.h"
 #include "gameOver.h"
 
-#define SUCESS 1
+#define ENTER 10
+#define SUCCESS 1
 #define FAIL 0
 #define GAME_OVER_TIME 10
 #define INIT_TICKTIME 1000
@@ -42,16 +44,14 @@ void handleFailKey() {
 	//this func handles GameOver case
 	signal(SIGALRM, SIG_IGN);
 	gameOver = 1;// gameOver
-
-	do {
-		//show gameover Message and Total Score
-		showGameOverView(score);
-	} while (getch() != 'b');
-
+	showGameOverView(score);
+	while (getch() != 'b') ;
 	char* userName = inputUserName();
+	clear();
 	scoreInput(userName,score);
 	free(userName);
 	clearQueue();
+	
 }
 void tickEvent() {
 	setTimeOverGage(currentTime);
@@ -102,23 +102,30 @@ void startGame(){
 	initVariable();
 	signal(SIGALRM, tickEvent);
 
-	//three count down before game start
-	countDown();
-	showPlayingView(score);
-	setTimeOverGage(currentTime);
 
-	if (setTicker(INIT_TICKTIME) == -1) {
-		perror("[InfStair] fail setTicker");
-	}
 
-	int key;
-	while (!gameOver) {
-		key = getch();
-		if (key == KEY_LEFT || key == KEY_RIGHT) {
-			CheckKeyDirection(key);
-		}
-	}
+    timeout(0); // non-blocking getch()
 
+    //three count down before game start
+    countDown();
+    showPlayingView(score);
+    setTimeOverGage(currentTime);
+
+    if (setTicker(INIT_TICKTIME) == -1) {
+        perror("[InfStair] fail setTicker");
+    }
+
+    int key;
+    while (!gameOver) {
+        key = getch();
+        if (key != ERR) { // 입력이 있는 경우에만 처리
+            if (key == KEY_LEFT || key == KEY_RIGHT) {
+                CheckKeyDirection(key);
+            }
+        }
+    }
+    endwin();
 }
+
 
 
