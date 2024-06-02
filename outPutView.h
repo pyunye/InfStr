@@ -1,5 +1,5 @@
 #include "textmanager.h"
-void showPlayingView();
+void showPlayingView(int);
 void printHelp(char*);
 void printRank(Players*);
 void showScore(int, int);

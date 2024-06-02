@@ -59,7 +59,6 @@ void showMainView() {
 	setSelectionCursor(0);
 	refresh();
 }
-
 void setSelectionCursor(int select) {
 	
 	static int old_select = 0;
@@ -99,38 +98,38 @@ void setSelectionCursor(int select) {
 	addstr(ARROW);
 	refresh();
 }
-
 void printHelp(char text[]){
 	clear();
 	addstr(text);
 	addstr(BACKKEY);
 	refresh();
 }
-
 void printRank(Players* unit){
-	initscr();
-	noecho();
 	clear();
-	char playersInfo[256];
 	int i=0;
 	while(i < unit->size && i < 10){
-		sprintf(playersInfo, " Rank %d : %d(%s)\n", i+1, unit->members[i].score, unit->members[i].username);
-		addstr(playersInfo);
+		printw(" Rank %d : %d(%s)\n", i + 1, unit->members[i].score, unit->members[i].username);
 		i++;
 	}
-	addstr("\n");
 	addstr(BACKKEY);
 	refresh();
 }
-
-void showPlayingView() {
+void showPlayingView(int score) {
 	clear();
 	move(1, 60);
 	printStairs(getStairsDir());
-	move(1, 60);
+	mvprintw(1, 41, "score : %d",score);
 	refresh();
 }
-
+void setTimeOverGage(int currentTime) {
+	mvprintw(2, 12, "|                                                                        |");
+	mvprintw(3, 12, "|                                                                        |");
+	for (int i = 1; i < currentTime; i++) {
+		mvprintw(2, 5 + 8 * i, "########");
+		mvprintw(3, 5 + 8 * i, "########");
+	}
+	refresh();
+}
 void printStairs(int stairs[]) {
 	int player_col= 40;
 	int player_row = 25;
@@ -147,20 +146,6 @@ void printStairs(int stairs[]) {
 		addstr(STAIR);
 		stair_row -= move_row;
 		stair_col += (stairs[i] == KEY_LEFT) ? -move_col : move_col;
-	}
-}
-
-void clearStairs(int stairs[]) {
-	int clear_col = 40;
-
-	for (int i = 0; i < MAX_QUEUE_SIZE; i++) {
-		if (stairs[i] == KEY_LEFT) {
-			move(25-i-1, --clear_col);
-			addstr(BLANK);
-		} else if (stairs[i] == KEY_RIGHT) {
-			move(25-i-1, ++clear_col);
-			addstr(BLANK);
-		}
 	}
 }
 void printCountDown(int time) {
@@ -200,7 +185,6 @@ void printCountDown(int time) {
 }
 void showGameOverView(int score) {
 	clear();
-	
 	move(5, 0);
 	prt_row = 5;
 
@@ -346,14 +330,4 @@ void showScore(int score, int col) {
 		}   	
 }
 
-
-void setTimeOverGage(int currentTime) {
-       	mvprintw(2, 12, "|                                                                        |");
-	mvprintw(3, 12, "|                                                                        |");
-	for(int i = 1; i < currentTime; i++) {
-		mvprintw(2, 5 + 8*i, "########");
-		mvprintw(3, 5 + 8*i, "########");
-	}
-	refresh();
-}
 
