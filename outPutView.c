@@ -92,18 +92,18 @@ void setSelectionCursor(int select) {
 }
 void printHelp(char text[]){
 	clear();
-
-	addstr(text);
-	addstr(BACKKEY);
+	mvprintw(7, 40, "%s", text);
+	mvprintw(25, 50, BACKKEY);
 	refresh();
 }
 void printRank(Players* unit){
 	clear();
 	int i=0;
 	while(i < unit->size && i < 10){
-		printw(" Rank %d : %d(%s)\n", i + 1, unit->members[i].score, unit->members[i].username);
+		mvprintw(10 + i, 50, " Rank %d : %d(%s)\n", i + 1, unit->members[i].score, unit->members[i].username);
 		i++;
 	}
+	move(30, 50);
 	addstr(BACKKEY);
 	refresh();
 }
@@ -189,8 +189,8 @@ void showGameOverView(int score) {
         add("       ##     ##  ##      ## ##       ## ##                  ###   ###     ## ##     ##       ##     ##                ");
         add("        #######   ##      ## ##       ## ########              #####        ###      #######  ##      ##     ###       ");
                      
-	prt_row = 21;
-	move(21, 0);
+	prt_row = 19;
+	move(19, 0);
 
 	add("         ######    ######     #####     ######     ########            ");
         add("        ##    ##  ##        ###   ###   ##    ##   ##                  ");
@@ -222,102 +222,102 @@ void showScore(int score, int col) {
 
 	switch(score) {
 		case 0:
-			mvprintw(21, col, "    ####    ");
-			mvprintw(22, col, "  ##    ##  ");
+			mvprintw(19, col, "    ####    ");
+			mvprintw(20, col, "  ##    ##  ");
+			mvprintw(21, col, " ##      ## ");
+			mvprintw(22, col, " ##      ## ");
 			mvprintw(23, col, " ##      ## ");
-			mvprintw(24, col, " ##      ## ");
-			mvprintw(25, col, " ##      ## ");
-			mvprintw(26, col, "  ##    ##  ");
-			mvprintw(27, col, "    ####    ");
+			mvprintw(24, col, "  ##    ##  ");
+			mvprintw(25, col, "    ####    ");
 			break;						 
 			
 		case 1:
-			mvprintw(21, col, "     ###    ");
-                        mvprintw(22, col, "    ####    ");
-			mvprintw(23, col, "  ##  ##    ");
+			mvprintw(19, col, "     ###    ");
+                        mvprintw(20, col, "    ####    ");
+			mvprintw(21, col, "  ##  ##    ");
+	                mvprintw(22, col, "      ##    ");
+	                mvprintw(23, col, "      ##    ");
 	                mvprintw(24, col, "      ##    ");
-	                mvprintw(25, col, "      ##    ");
-	                mvprintw(26, col, "      ##    ");
-			mvprintw(27, col, "  ######### ");
+			mvprintw(25, col, "  ######### ");
 			break;
 
 		case 2:
-			mvprintw(21, col, "   ######   ");
-			mvprintw(22, col, "  ##    ##  ");
-			mvprintw(23, col, "       ###  ");
-			mvprintw(24, col, "      ###   ");
-			mvprintw(25, col, "    ###     ");
-			mvprintw(26, col, "  ###       ");
-			mvprintw(27, col, " ########## ");
+			mvprintw(19, col, "   ######   ");
+			mvprintw(20, col, "  ##    ##  ");
+			mvprintw(21, col, "       ###  ");
+			mvprintw(22, col, "      ###   ");
+			mvprintw(23, col, "    ###     ");
+			mvprintw(24, col, "  ###       ");
+			mvprintw(25, col, " ########## ");
 			break;
 
 		case 3:
-			mvprintw(21, col, "   ######   ");
-			mvprintw(22, col, " ###    ### ");
+			mvprintw(19, col, "   ######   ");
+			mvprintw(20, col, " ###    ### ");
+			mvprintw(21, col, "        ### ");
+			mvprintw(22, col, "     ####   ");
 			mvprintw(23, col, "        ### ");
-			mvprintw(24, col, "     ####   ");
-			mvprintw(25, col, "        ### ");
-			mvprintw(26, col, " ###    ### ");
-			mvprintw(27, col, "   ######   ");
+			mvprintw(24, col, " ###    ### ");
+			mvprintw(25, col, "   ######   ");
 			break;
 
 		case 4:               
-                        mvprintw(21, col, "     ####   ");
-                        mvprintw(22, col, "    ## ##   ");
-                        mvprintw(23, col, "   ##  ##   ");
-                        mvprintw(24, col, "  ##   ##   ");
-                        mvprintw(25, col, " ########## ");
-                        mvprintw(26, col, "       ##   ");
-                        mvprintw(27, col, "       ##   ");
+                        mvprintw(19, col, "     ####   ");
+                        mvprintw(20, col, "    ## ##   ");
+                        mvprintw(21, col, "   ##  ##   ");
+                        mvprintw(22, col, "  ##   ##   ");
+                        mvprintw(23, col, " ########## ");
+                        mvprintw(24, col, "       ##   ");
+                        mvprintw(25, col, "       ##   ");
 			break;
 
 		case 5:		
-                        mvprintw(21, col, " ########## ");
-                        mvprintw(22, col, " ##         ");
-                        mvprintw(23, col, " ##         ");
-                        mvprintw(24, col, " #########  ");
-                        mvprintw(25, col, "         ## ");
-                        mvprintw(26, col, "         ## ");
-                        mvprintw(27, col, " #########  ");
+                        mvprintw(19, col, " ########## ");
+                        mvprintw(20, col, " ##         ");
+                        mvprintw(21, col, " ##         ");
+                        mvprintw(22, col, " #########  ");
+                        mvprintw(23, col, "         ## ");
+                        mvprintw(24, col, "         ## ");
+                        mvprintw(25, col, " #########  ");
 			break;
 
                 case 6:
-                        mvprintw(21, col, "  ########  ");
-                        mvprintw(22, col, " ##      ## ");
-                        mvprintw(23, col, " ##         ");
-                        mvprintw(24, col, " #########  ");
-                        mvprintw(25, col, " ##      ## ");
-                        mvprintw(26, col, " ##      ## ");
-                        mvprintw(27, col, "  ########  ");
+                        mvprintw(19, col, "  ########  ");
+                        mvprintw(20, col, " ##      ## ");
+                        mvprintw(21, col, " ##         ");
+                        mvprintw(22, col, " #########  ");
+                        mvprintw(23, col, " ##      ## ");
+                        mvprintw(24, col, " ##      ## ");
+                        mvprintw(25, col, "  ########  ");
 			break;
 
                 case 7:
-                        mvprintw(21, col, " ########## ");
-                        mvprintw(22, col, "        ##  ");
-                        mvprintw(23, col, "       ##   ");
-                        mvprintw(24, col, "      ##    ");
-                        mvprintw(25, col, "     ##     ");
-                        mvprintw(26, col, "    ##      ");
-                        mvprintw(27, col, "   ##       ");
+                        mvprintw(19, col, " ########## ");
+                        mvprintw(20, col, "        ##  ");
+                        mvprintw(21, col, "       ##   ");
+                        mvprintw(22, col, "      ##    ");
+                        mvprintw(23, col, "     ##     ");
+                        mvprintw(24, col, "    ##      ");
+                        mvprintw(25, col, "   ##       ");
 			break;
 
                 case 8:
-                        mvprintw(21, col, "  ########  ");
-                        mvprintw(22, col, " ##      ## ");
+                        mvprintw(19, col, "  ########  ");
+                        mvprintw(20, col, " ##      ## ");
+                        mvprintw(21, col, " ##      ## ");
+                        mvprintw(22, col, "  ########  ");
                         mvprintw(23, col, " ##      ## ");
-                        mvprintw(24, col, "  ########  ");
-                        mvprintw(25, col, " ##      ## ");
-                        mvprintw(26, col, " ##      ## ");
-                        mvprintw(27, col, "  ########  ");
+                        mvprintw(24, col, " ##      ## ");
+                        mvprintw(25, col, "  ########  ");
 			break;
                 case 9:
-                        mvprintw(21, col, "  #######  ");
-                        mvprintw(22, col, " ##     ## ");
-                        mvprintw(23, col, " ##     ## ");
-                        mvprintw(24, col, "  #######  ");
-                        mvprintw(25, col, "      ##   ");
-                        mvprintw(26, col, "     ##    ");
-                        mvprintw(27, col, "    ##     ");
+                        mvprintw(19, col, "  #######  ");
+                        mvprintw(20, col, " ##     ## ");
+                        mvprintw(21, col, " ##     ## ");
+                        mvprintw(22, col, "  #######  ");
+                        mvprintw(23, col, "      ##   ");
+                        mvprintw(24, col, "     ##    ");
+                        mvprintw(25, col, "    ##     ");
 			break;	
 		}   	
 }
